@@ -1,0 +1,252 @@
+warning: LF will be replaced by CRLF in .firebase/hosting.ZGlzdA.cache.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in firebase.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in package-lock.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in public/index.html.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in src/App.vue.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in src/components/HelloWorld.vue.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in src/router.ts.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in src/views/Home.vue.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in tsconfig.json.
+The file will have its original line endings in your working directory
+[1mdiff --git a/.firebase/hosting.ZGlzdA.cache b/.firebase/hosting.ZGlzdA.cache[m
+[1mindex 32d978a..40bf1e8 100644[m
+[1m--- a/.firebase/hosting.ZGlzdA.cache[m
+[1m+++ b/.firebase/hosting.ZGlzdA.cache[m
+[36m@@ -1,27 +1,24 @@[m
+[31m-index.html,1570240122181,19aec11565f61f81961c60bd2fe85caac2c5f641b7aae9808898dae47d5af14e[m
+[31m-manifest.json,1570240122191,bbe0ed56ed0f67636c74bb4cf3788176b6089a96ac6650e1e53ba327ca1da876[m
+[31m-precache-manifest.ac35b664b53cfb4c0dc460729934a0c7.js,1570240122192,d3e0e38cf0c3ee2d82323f1a77bc9ffcc3bc1728df9886e2cc44fc1a5dcd2d38[m
+[31m-robots.txt,1570240122192,8c8992414cc7101f8c9952a566181d667e7343481f8e7b05c55103b1bfa0d899[m
+[31m-service-worker.js,1570240122193,4d529a3945a752fc10460fd6abb578a2882427fb67e06c558c3a9b1a4f0df6fb[m
+[31m-favicon.ico,1570240122184,d5451f0f0f0bcbcd433bbdf4f6e7e5d89d8ecce2650649e969ccb5e5cd499ab2[m
+[31m-css/app.78156f54.css,1570240122189,b9889a6ac974ecb8c1d9ea439f05f9e536bc219f4ad2d5c09c98bce8b3b73894[m
+[31m-img/logo.82b9c7a5.png,1570240122184,438ff076c76bd2573eb20ffa0804462a1334b7d28aa49d1b55a84d7345269938[m
+[31m-img/icons/android-chrome-192x192.png,1570240122193,1601e903dd5b96e7c51bdee83280c7e8b892853c060a6a5678149b4f610ba735[m
+[31m-img/icons/apple-touch-icon-120x120.png,1570240122189,a2b303962234b7b42b405855d47d9a22125ec3835aa8beaa93993a48f20324da[m
+[31m-img/icons/apple-touch-icon-152x152.png,1570240122190,e04c47d9eb83b7310e18c61b9a531a332bc3131e59569c98ba07558c496b3d33[m
+[31m-img/icons/apple-touch-icon-180x180.png,1570240122190,8d722cc9bea5f346f0c3f7f9686fe2803bda1f4996aafe816e8d1f47fe374eb6[m
+[31m-img/icons/apple-touch-icon-60x60.png,1570240122190,761604748c0c0d3d231e2747ed07b1495d89cda574952633ee29cff7b31396a0[m
+[31m-img/icons/apple-touch-icon-76x76.png,1570240122190,3e6243fc37a9487794d6505c204d7bb4786e951e1fb9e47b1d19e246927c3bbe[m
+[31m-img/icons/favicon-16x16.png,1570240122193,b12d84a1fdd892ea42334cc7b237580def4eca259f32f35e61cfb17436fb0b91[m
+[31m-img/icons/apple-touch-icon.png,1570240122192,cca573c20d4737f0a01bf331344e0615f84d08af1b5f79b1fb0672db8a9029f8[m
+[31m-img/icons/favicon-32x32.png,1570240122192,09ce0ae6c14174313689c48296aa7d496bfc7487cb380684782338c1344ac259[m
+[31m-img/icons/msapplication-icon-144x144.png,1570240122193,053f2a18f911c8e69d830d8313e5cb959736fe7ddbaba4aff3cd9c0a2b2f4c3c[m
+[31m-js/about.9ca73bea.js,1570240122184,55fd0a6da1605111e70f428509008b58e6101c5a9ca3890d8609d7e879676531[m
+[31m-img/icons/mstile-150x150.png,1570240122194,31d5a5aa6e6b4e0e49ea49360e2aeb05c9c49b7597feb63ec58d674960d928b5[m
+[31m-js/about.9ca73bea.js.map,1570240122190,933d60a20a3ee888bca7946f5d1db9bb4b1190229de7d863c25163035bb8ecb9[m
+[31m-js/app.95ad4910.js,1570240122189,83a5c06ce0f32425dd1dc5db4a9fc8b0dd4d37638a5a825ef3c35ca9c0dcc2dc[m
+[31m-js/app.95ad4910.js.map,1570240122190,9bc24aca03fe5bb9a5440e7ec592fe5a3b53daf3653f40b04b3abd807ed9caf4[m
+[31m-img/icons/android-chrome-512x512.png,1570240122194,863d4e6c2a82e9e206ec585699d392b8979403d79a6da7db1789b893bfcbbd4b[m
+[31m-img/icons/safari-pinned-tab.svg,1570240122194,703592243f6c0918cf0bdb7c7cc1888978794791cde300b2aedb3bd532e36287[m
+[31m-js/chunk-vendors.c10c77d7.js,1570240122190,a1bdec5d7732e6e80c762c5cfa9d965866d4d8fa2340f338b35d1ad9b6f69081[m
+[31m-js/chunk-vendors.c10c77d7.js.map,1570240122190,36d33c4ed47e0add75c1b04e2f39fd83c63c3cc8bf757d215e6f2545da68ebed[m
+[32m+[m[32mindex.html,1571333684991,a7ec8b69e14f936b2d8e486c86f76634cafc4683a5465f8ec559517b372d2513[m
+[32m+[m[32mmanifest.json,1571333685015,bbe0ed56ed0f67636c74bb4cf3788176b6089a96ac6650e1e53ba327ca1da876[m
+[32m+[m[32mprecache-manifest.6e4dde84a11e7b6f823894179087b259.js,1571333685016,ad68eb3e2e59324e3ce532e489c4f944c914d5777caf45fbd24648933a787222[m
+[32m+[m[32mrobots.txt,1571333685014,8c8992414cc7101f8c9952a566181d667e7343481f8e7b05c55103b1bfa0d899[m
+[32m+[m[32mfavicon.ico,1571333684991,d5451f0f0f0bcbcd433bbdf4f6e7e5d89d8ecce2650649e969ccb5e5cd499ab2[m
+[32m+[m[32mservice-worker.js,1571333685017,89477d9fc085a47f7af58b3dea1f88d19d401b580e7cee476c61a613ab51a933[m
+[32m+[m[32mcss/app.21b88d89.css,1571333685011,054007bb81e0945ebb620b4c38ca228f3e2f25b60baaf70d63d76365b5cd4be4[m
+[32m+[m[32mimg/icons/android-chrome-192x192.png,1571333685016,1601e903dd5b96e7c51bdee83280c7e8b892853c060a6a5678149b4f610ba735[m
+[32m+[m[32mimg/icons/apple-touch-icon-120x120.png,1571333685014,a2b303962234b7b42b405855d47d9a22125ec3835aa8beaa93993a48f20324da[m
+[32m+[m[32mimg/icons/apple-touch-icon-152x152.png,1571333685014,e04c47d9eb83b7310e18c61b9a531a332bc3131e59569c98ba07558c496b3d33[m
+[32m+[m[32mimg/icons/apple-touch-icon-60x60.png,1571333685015,761604748c0c0d3d231e2747ed07b1495d89cda574952633ee29cff7b31396a0[m
+[32m+[m[32mimg/icons/apple-touch-icon-76x76.png,1571333685015,3e6243fc37a9487794d6505c204d7bb4786e951e1fb9e47b1d19e246927c3bbe[m
+[32m+[m[32mimg/icons/apple-touch-icon-180x180.png,1571333685013,8d722cc9bea5f346f0c3f7f9686fe2803bda1f4996aafe816e8d1f47fe374eb6[m
+[32m+[m[32mimg/icons/apple-touch-icon.png,1571333685014,cca573c20d4737f0a01bf331344e0615f84d08af1b5f79b1fb0672db8a9029f8[m
+[32m+[m[32mimg/icons/favicon-16x16.png,1571333685015,b12d84a1fdd892ea42334cc7b237580def4eca259f32f35e61cfb17436fb0b91[m
+[32m+[m[32mimg/icons/favicon-32x32.png,1571333685015,09ce0ae6c14174313689c48296aa7d496bfc7487cb380684782338c1344ac259[m
+[32m+[m[32mimg/icons/msapplication-icon-144x144.png,1571333685016,053f2a18f911c8e69d830d8313e5cb959736fe7ddbaba4aff3cd9c0a2b2f4c3c[m
+[32m+[m[32mimg/icons/mstile-150x150.png,1571333685015,31d5a5aa6e6b4e0e49ea49360e2aeb05c9c49b7597feb63ec58d674960d928b5[m
+[32m+[m[32mjs/app.740737e4.js,1571333685011,48bb21880f65c285f8b25dc30991f877fdd3fb6fbd661debd42d6dd75b348285[m
+[32m+[m[32mimg/icons/android-chrome-512x512.png,1571333685017,863d4e6c2a82e9e206ec585699d392b8979403d79a6da7db1789b893bfcbbd4b[m
+[32m+[m[32mjs/app.740737e4.js.map,1571333685011,1197e97dc2f545b40dc6115a6dc06db557b14d17228ac0f133af320bbf31452c[m
+[32m+[m[32mimg/icons/safari-pinned-tab.svg,1571333685016,703592243f6c0918cf0bdb7c7cc1888978794791cde300b2aedb3bd532e36287[m
+[32m+[m[32mjs/chunk-vendors.f2993e9a.js,1571333685012,4bc16c7707f9124c7b5462910c04cf9192a685796c8411f13bf9391d3ab1e918[m
+[32m+[m[32mjs/chunk-vendors.f2993e9a.js.map,1571333685013,58c625321a1e4ba09bb1696ac4e51d0542a4cc8126fe3f8dae96f6a781e2e56e[m
+[1mdiff --git a/firebase.json b/firebase.json[m
+[1mindex 2c33c29..39e9853 100644[m
+[1m--- a/firebase.json[m
+[1m+++ b/firebase.json[m
+[36m@@ -12,5 +12,15 @@[m
+         "destination": "/index.html"[m
+       }[m
+     ][m
+[32m+[m[32m  },[m
+[32m+[m[32m  "firestore": {[m
+[32m+[m[32m    "rules": "firestore.rules",[m
+[32m+[m[32m    "indexes": "firestore.indexes.json"[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "functions": {[m
+[32m+[m[32m    "predeploy": [[m
+[32m+[m[32m      "npm --prefix \"$RESOURCE_DIR\" run lint",[m
+[32m+[m[32m      "npm --prefix \"$RESOURCE_DIR\" run build"[m
+[32m+[m[32m    ][m
+   }[m
+ }[m
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex ba69002..759ff92 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -819,6 +819,248 @@[m
+         "to-fast-properties": "^2.0.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "@firebase/analytics": {[m
+[32m+[m[32m      "version": "0.2.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/analytics/-/analytics-0.2.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-FEKA+8yKWlPLGxetg1VolUjv6hsrxlAFdIzLhIicxljXbQVEaMg3JnO7HgV2opQK7H+KEOQQETQE9efe63qL2w==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/analytics-types": "0.2.1",[m
+[32m+[m[32m        "@firebase/installations": "0.3.0",[m
+[32m+[m[32m        "@firebase/util": "0.2.29",[m
+[32m+[m[32m        "tslib": "1.10.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/analytics-types": {[m
+[32m+[m[32m      "version": "0.2.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/analytics-types/-/analytics-types-0.2.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-2Z+Q9rRwEiSZm9vJj2WZSNXkFClrRVh55kkW2iZG8KoZ9MJpT8RAADEIM95eFFZcvH/J89HGTOqka6tupn0DmA=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/app": {[m
+[32m+[m[32m      "version": "0.4.19",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/app/-/app-0.4.19.tgz",[m
+[32m+[m[32m      "integrity": "sha512-3cx4zfQstiYSPz/Ka5EdC4Mv/m27f+gOkgvUheX0ggk/vA8RUwNnenryz16LQSvuXtWltyW7OFfhp2NXA/ZaoQ==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/app-types": "0.4.5",[m
+[32m+[m[32m        "@firebase/logger": "0.1.26",[m
+[32m+[m[32m        "@firebase/util": "0.2.29",[m
+[32m+[m[32m        "dom-storage": "2.1.0",[m
+[32m+[m[32m        "tslib": "1.10.0",[m
+[32m+[m[32m        "xmlhttprequest": "1.8.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/app-types": {[m
+[32m+[m[32m      "version": "0.4.5",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/app-types/-/app-types-0.4.5.tgz",[m
+[32m+[m[32m      "integrity": "sha512-r75NGsHMP2SZMIn43VRjuCLIU4+r5fR8azo7SlJ/vIbt8JBAIfZVnmLFl+Y9iyeYHV9nbRTy16goVyuwj7rPJg=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/auth": {[m
+[32m+[m[32m      "version": "0.12.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/auth/-/auth-0.12.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-SrAwyNmUwDXTo2lLdBl2v/SSe3piS6/Y698dZn8qLdsQakRA4gWOQtgu8O/Et4PjzCJBcwIk4D7w3g8IjypH4A==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/auth-types": "0.8.1"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/auth-types": {[m
+[32m+[m[32m      "version": "0.8.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/auth-types/-/auth-types-0.8.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-B31nrV6MpvSrp6tmedtrtEZhFXH2KliVpNB1wz6xjWVNDlIjPuhsqR1R4j6oVWNJBqq5gzCeiQ/ni1iOkMzG5Q=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/database": {[m
+[32m+[m[32m      "version": "0.5.7",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/database/-/database-0.5.7.tgz",[m
+[32m+[m[32m      "integrity": "sha512-zF0uVLXt4lSKxNMjQWoJ02oYIgb37BzX/reGl2SJ14Gq7BYVNvW/BniVZ6KGgA9MpH7e5kL0fDTFjZx5uS5kxg==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/database-types": "0.4.5",[m
+[32m+[m[32m        "@firebase/logger": "0.1.26",[m
+[32m+[m[32m        "@firebase/util": "0.2.29",[m
+[32m+[m[32m        "faye-websocket": "0.11.3",[m
+[32m+[m[32m        "tslib": "1.10.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "faye-websocket": {[m
+[32m+[m[32m          "version": "0.11.3",[m
+[32m+[m[32m          "resolved": "https://registry.npmjs.org/faye-websocket/-/faye-websocket-0.11.3.tgz",[m
+[32m+[m[32m          "integrity": "sha512-D2y4bovYpzziGgbHYtGCMjlJM36vAl/y+xUyn1C+FVx8szd1E+86KwVw6XvYSzOP8iMpm1X0I4xJD+QtUb36OA==",[m
+[32m+[m[32m          "requires": {[m
+[32m+[m[32m            "websocket-driver": ">=0.5.1"[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/database-types": {[m
+[32m+[m[32m      "version": "0.4.5",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/database-types/-/database-types-0.4.5.tgz",[m
+[32m+[m[32m      "integrity": "sha512-VtVtBJvmmN+rb3q6hewxiYMhRUOeAav87DVPkmEeFs0Q+SiinjEb/Po3e98LyRAX8nJDj0EsIUoiKuTy8IyQFw==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/app-types": "0.4.5"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/firestore": {[m
+[32m+[m[32m      "version": "1.6.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/firestore/-/firestore-1.6.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-vxWNg2emSDBDhbdEzvIFIOhY8PMafmAnT2U/rs7OlyU0vuIssawNukh0YdlUTyWPZSYUezslvztvx64M38bdvQ==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/firestore-types": "1.6.1",[m
+[32m+[m[32m        "@firebase/logger": "0.1.26",[m
+[32m+[m[32m        "@firebase/util": "0.2.29",[m
+[32m+[m[32m        "@firebase/webchannel-wrapper": "0.2.27",[m
+[32m+[m[32m        "@grpc/proto-loader": "^0.5.0",[m
+[32m+[m[32m        "grpc": "1.24.0",[m
+[32m+[m[32m        "tslib": "1.10.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/firestore-types": {[m
+[32m+[m[32m      "version": "1.6.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/firestore-types/-/firestore-types-1.6.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-WdyOYhf1bPvU8wd2NOKm0EGN/0Cj7vSOxqa4oD/7+Ug2wC4OLVnwbFuDU676wpFahUnTtpXlGHZsH9FEcdpIxg=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/functions": {[m
+[32m+[m[32m      "version": "0.4.20",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/functions/-/functions-0.4.20.tgz",[m
+[32m+[m[32m      "integrity": "sha512-kGpk5Yr3IXx2tfbgyf0/dsiDCYctsSRJGrI/CPs7m239vu/ADomICj+1WyNCIs1X9nGaqoxgQX+Epq/r1QC+/A==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/functions-types": "0.3.9",[m
+[32m+[m[32m        "@firebase/messaging-types": "0.3.3",[m
+[32m+[m[32m        "isomorphic-fetch": "2.2.1",[m
+[32m+[m[32m        "tslib": "1.10.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/functions-types": {[m
+[32m+[m[32m      "version": "0.3.9",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/functions-types/-/functions-types-0.3.9.tgz",[m
+[32m+[m[32m      "integrity": "sha512-uFnBjhmpps0rxhMLgK35mVU1cyVvwCHNSLRoumM/t7n3VWgKFt3hrNFXvdwB5Y0ALIHGjWOWwqeirQZPKtV0FQ=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/installations": {[m
+[32m+[m[32m      "version": "0.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/installations/-/installations-0.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-b9MKUGtqioR6XbIyXtZWGI8/YsgTWy9WZGApCNmUTBe/u8jQvR3XfzUYvcrMDQ07eGOasbtul9GAcYf7dVdz2A==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/installations-types": "0.2.0",[m
+[32m+[m[32m        "@firebase/util": "0.2.29",[m
+[32m+[m[32m        "idb": "3.0.2",[m
+[32m+[m[32m        "tslib": "1.10.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/installations-types": {[m
+[32m+[m[32m      "version": "0.2.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/installations-types/-/installations-types-0.2.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-4U7uJcrhT9PPIV16UyNo+cWldwxbmtXqWNgvL5EpiCD885Vh75gSOXk5/XSKz5H9yJamxsAAbAgwj69EZ49Yjg=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/logger": {[m
+[32m+[m[32m      "version": "0.1.26",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/logger/-/logger-0.1.26.tgz",[m
+[32m+[m[32m      "integrity": "sha512-0PDyG6lGobJThf7pD1LpLLpiL7T+zNzYz0EyonC4aisewSatTRZA42Ys8XZ2CG0Wydyi9A7ogkfYf0CTGKOU1g=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/messaging": {[m
+[32m+[m[32m      "version": "0.5.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/messaging/-/messaging-0.5.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-6XcLpky2N9kUDa+8gqa3EorlVGenVEf1rnCSUjzGrKB4Rr/LNSM1JlOA0MbwqDNwma9TKsQQycvdU8jlieHEOA==",[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "@firebase/installations": "0.3.0",[m
+[32m+[m[32m        "@firebase/messaging-types": "0.3.3",[m
+[32m+[m[32m        "@firebase/util": "0.2.29",[m
+[32m+[m[32m        "tslib": "1.10.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "@firebase/messaging-types": {[m
+[32m+[m[32m      "version": "0.3.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@firebase/messaging-types/-/messaging-types-0.3.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-rfKF3oxxfy7Tm8clIlhBi+2K6RQBdf
