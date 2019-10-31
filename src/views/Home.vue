@@ -4,7 +4,9 @@
     v-model="drawer"
     app>
     <v-list dense flat>
-      <v-list-item>
+      <v-list-item-group>
+
+      <!-- <v-list-item>
         <v-list-item-action>
           <v-icon>home</v-icon>
         </v-list-item-action>
@@ -19,7 +21,16 @@
         <v-list-item-content>
           <v-list-item-title>Contact</v-list-item-title>
         </v-list-item-content>
+      </v-list-item> -->
+      <v-list-item @click="signOut()">
+        <v-list-item-action>
+          <v-icon>fas fa-sign-out-alt</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
 
@@ -31,7 +42,7 @@
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title class="pl-2">Home</v-toolbar-title>
     <v-icon class="ml-auto">person</v-icon>
-    <div class="ml-1">{{user.name}}</div>
+    <div class="ml-1">{{user.nameEng.firstName}} {{user.nameEng.lastName}}</div>
   </v-app-bar>
 
 
@@ -39,13 +50,13 @@
     <v-container
       fluid
       class="pa-0"
-      style="height: 100%">
+      style="">
       <v-carousel
         v-model="nav"
         :continuous="false"
         :hide-delimiters="true"
         :show-arrows="false"
-        height="100%">
+        height="calc(100vh - 112px)">
         <v-carousel-item>
           <ScoreBoardHome/>
         </v-carousel-item>
@@ -66,7 +77,7 @@
     v-model="nav"
     grow
     app
-    color="deep-purple">
+    color="indigo">
     <v-btn>
       <span>ScoreBoard</span>
       <v-icon>description</v-icon>
@@ -88,7 +99,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+
 import ScoreBoardHome from '../components/ScoreBoardHome.vue'
 import FreeHome from '../components/FreeHome.vue'
 import LogHome from '../components/LogHome.vue'
@@ -104,10 +118,30 @@ import PersonalScoreHome from '../components/PersonalScoreHome.vue'
 })
 export default class Home extends Vue{
   private drawer = null;
-  public user = {
-    name: "Tetsuo Hirota"
-  }
   private nav = 0;
+  @Watch('nav')
+  changeNav() {
+    this.$store.dispatch('changeHomeNav', this.nav)
+  }
+  get user() {
+    return JSON.parse(localStorage.getItem("user") as string)
+  }
+
+  created() {
+    this.nav = this.$store.getters.homeNav;
+  }
+
+  signOut() {
+    let result = confirm("本当にログアウトしますか？")
+    if (result) {
+      firebase.auth().signOut().then(() => {
+        this.$router.push('/signin');
+        localStorage.removeItem("user");
+      })
+    }
+  }
+
+
 }
 </script>
 <style lang="scss" scoped>

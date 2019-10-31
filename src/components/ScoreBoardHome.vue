@@ -1,13 +1,9 @@
 <template>
   <v-container
-  style="height: 100%;"
+  style="height: 100%; overflow-y: scroll"
   fluid>
-    <h2 class="headline grey--text my-1">ルールを選択してください</h2>
-    <v-layout
-    column
-    class="px-4"
-    style="overflow-y: scroll; height: calc(100% - 28px)"
-    align-content-start>
+    <h2 class="headline grey--text">ルールを選択してください</h2>
+    <v-col>
 
       <!-- ルールカード -->
       <transition-group name="card">
@@ -25,35 +21,39 @@
           <v-card-text
           class="ml-1 body-2 font-weight-regular"
           style="color: #EEE;">
-            <v-layout>
-              <div style="width: 70px;">レート</div>
-              <div>点{{rule.rate}}</div>
-            </v-layout>
-            <v-layout>
-              <div style="width: 70px;">順位点</div>
-              <div
-              v-for="uma in rule.uma"
-              :key="uma"
-              class="mr-2">
-                {{uma}}pt
-              </div>
-            </v-layout>
-            <v-layout>
-              <div style="width: 70px;">飛び賞</div>
-              <div>{{rule.bonus}}pt</div>
-            </v-layout>
-            <v-layout>
-              <div style="width: 70px;">チップ</div>
-              <div>{{rule.chip}}pt</div>
-            </v-layout>
-            <v-layout>
-              <div style="width: 70px;">返し</div>
-              <div>{{rule.kaeshi}}点</div>
-            </v-layout>
-            <v-layout>
-              <div style="width: 70px;">清算方法</div>
-              <div>{{rule.round}}</div>
-            </v-layout>
+            <v-row>
+              <v-col class="py-0" cols="3">レート</v-col>
+              <v-col class="py-0">点{{rule.rate}}</v-col>
+            </v-row>
+            <v-row>
+              <v-col class="py-0" cols="3">順位点</v-col>
+              <v-col class="py-0">
+                <v-row class="ma-0">
+                  <div
+                  class="mr-2"
+                  v-for="uma in rule.uma"
+                  :key="uma">
+                    {{uma}}pt
+                  </div>
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="py-0" cols="3">飛び賞</v-col>
+              <v-col class="py-0">{{rule.bonus}}pt</v-col>
+            </v-row>
+            <v-row>
+              <v-col class="py-0" cols="3">チップ</v-col>
+              <v-col class="py-0">{{rule.chip}}pt</v-col>
+            </v-row>
+            <v-row>
+              <v-col class="py-0" cols="3">返し</v-col>
+              <v-col class="py-0">{{rule.kaeshi}}点</v-col>
+            </v-row>
+            <v-row>
+              <v-col class="py-0" cols="3">清算方法</v-col>
+              <v-col class="py-0">{{rule.round}}</v-col>
+            </v-row>
           </v-card-text>
           <v-btn
           absolute
@@ -66,8 +66,7 @@
           </v-btn>
         </v-card>
       </transition-group>
-
-    </v-layout>
+    </v-col>
 
       <!-- 追加ボタン -->
       <v-btn
@@ -80,6 +79,7 @@
       </v-btn>
 
       <!-- モーダル -->
+      <!-- 新規ルールモーダル -->
       <v-dialog
       v-model="showNewRule"
       persistent
@@ -168,6 +168,23 @@
         </v-card>
       </v-dialog>
 
+      <!-- 確認モーダル -->
+      <v-dialog
+      v-model="showConfirm"
+      max-width="600px">
+      <v-card>
+        <v-col>
+          <p>前回使用したデータが残っています。続きから始めますか？</p>
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-btn text color="blue darken-1" @click="toScoreBoard()">yes</v-btn>
+            <v-btn text color="blue darken-1" @click="toNewScoreBoard()">no</v-btn>
+          </v-row>
+        </v-col>
+      </v-card>
+      </v-dialog>
+      
+
   </v-container>
 </template>
 
@@ -182,6 +199,8 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class ScoreBoardHome extends Vue {
   public rules: any[] = [];
   private showNewRule = false;
+  showConfirm = false;
+  selectedRule: any = {};
   private newRule = {
     title: "",
     rate: null,
@@ -232,7 +251,7 @@ export default class ScoreBoardHome extends Vue {
 
   get sortedRules() {
     return this.rules.sort((a: any, b: any) => {
-      if (a.lastUse < b.lastUse) {
+      if (new Date(a.lastUse) < new Date(b.lastUse)) {
           return 1;
         } else {
           return -1;
@@ -241,12 +260,16 @@ export default class ScoreBoardHome extends Vue {
     );
   }
 
-  created(){
+  created() {
     // ローカルストレージから読み込み
     const rules = JSON.parse(localStorage.getItem("rules") as string);
     if (rules !== null) {
       this.rules = rules;
     }
+    // console.log(new Date());
+    // console.log(this.rules[0].lastUse);
+    // console.log(new Date(this.rules[0].lastUse));
+    
   }
 
   closeNewRule() {
@@ -266,61 +289,43 @@ export default class ScoreBoardHome extends Vue {
   }
 
   selectRule(rule: any) {
-    this.$router.push('/scoreboard');
-    localStorage.setItem("selectedRule", JSON.stringify(rule));
+    this.selectedRule = rule;
+    const scores = JSON.parse(localStorage.getItem("scores") as string);
+    if (scores == null) {
+      this.toNewScoreBoard();
+    } else {
+      if (scores.length == 0){
+        this.toNewScoreBoard();
+        } else {
+        this.showConfirm = true; 
+      }
+    }
   }
-//   rulesRef = this.$firestore.collection("rules");
-//   private rules = new Array;
 
-//   toScoreBoard(a: any){
-//     console.log(a);
-//     console.log("H");
-//   }
-//   test() {
-//     console.log(this.rules);
-//   }
+  toScoreBoard() {
+    localStorage.setItem("selectedRule", JSON.stringify(this.selectedRule));
+    this.$router.push('/scoreboard');
+    this.changeLastUse(this.selectedRule);
+  }
 
-//   getMyRules() {
-//     return new Promise(resolve => {
-//       resolve(this.$store.getters.getMyRules)
-//     })
-//   }
+  toNewScoreBoard() {
+    localStorage.setItem("selectedRule", JSON.stringify(this.selectedRule));
+    localStorage.removeItem("scores");
+    localStorage.removeItem("players");
+    this.$router.push('/scoreboard');
+    this.changeLastUse(this.selectedRule);
+  }
 
-//   getRule(rule: string) {
-//     return new Promise(resolve => {
-//       this.rulesRef.doc(rule).get().then((doc)=> {
-//         if (doc.exists) {
-//           resolve(doc.data())
-//         }
-//       })
-//     })
-//   }
+  changeLastUse(selectedRule: any) {
+    this.rules.find((rule: any) => {
+      return rule.title == selectedRule.title;
+    }).lastUse = new Date();
+    localStorage.setItem("rules",JSON.stringify(this.rules));
+  }
 
-//   async setRules() {
-//     // let rules = new Array;
-//     const myRules: any = await this.getMyRules();
-//     for (let i = 0; i < myRules.length; i++){
-//       const rule:any = await this.getRule(myRules[i])
-//       this.rules.push(rule);
-//     }
-//     // return rules;
-//   }
-//   start(){
-//     this.$router.push('/scoreboard')
-//   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../assets/common.scss';
-
-.card{
-  &-enter-active, &-leave-active, &-move {
-    transition: opacity 0.5s, transform 0.5s;
-  }
-  &-enter, &-leave-to {
-    opacity: 0;
-  }
-}
-
 </style>

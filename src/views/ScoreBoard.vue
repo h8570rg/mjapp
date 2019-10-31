@@ -12,8 +12,8 @@
     </v-btn>
     <v-toolbar-title class="pl-1">ScoreBoard</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon color="red" @click="reset()">
-      <v-icon>not_interested</v-icon>
+    <v-btn icon @click="reset()">
+      <v-icon>delete</v-icon>
     </v-btn>
     <v-btn icon @click="save()">
       <v-icon>save</v-icon>
@@ -21,9 +21,7 @@
     <v-btn icon @click="openPlayerAddModal()">
       <v-icon>person_add</v-icon>
     </v-btn>
-    <!-- <v-btn icon>
-      <v-icon>build</v-icon>
-    </v-btn> -->
+
   </v-app-bar>
 
   <v-content>
@@ -524,6 +522,7 @@ export default class ScoreBoard extends Vue {
 
   created() {
     // ローカルストレージから読み込み
+    const user = JSON.parse(localStorage.getItem("user") as string);
     const rule = JSON.parse(localStorage.getItem("selectedRule") as string);
     const scores = JSON.parse(localStorage.getItem("scores") as string);
     const chips = JSON.parse(localStorage.getItem("chips") as string);
@@ -541,7 +540,7 @@ export default class ScoreBoard extends Vue {
       this.players = players;
     } else {
       this.players = [
-        { id: "player1", nickName: "player1" },
+        { id: user.id, nickName: user.nickName },
         { id: "player2", nickName: "player2" },
         { id: "player3", nickName: "player3" },
         { id: "player4", nickName: "player4" },

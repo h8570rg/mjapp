@@ -3,6 +3,7 @@
 
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
 
 // Vue.use(VueFire)
 
@@ -31,5 +32,6 @@ export default {
       projectId: 'mj-app-pwa'
     })
     Vue.prototype.$firestore = firebaseApp.firestore();
+    // Vue.prototype.$auth = firebaseApp.auth();
   }
 }
