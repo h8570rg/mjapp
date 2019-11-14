@@ -1,6 +1,7 @@
 <template>
 <v-app>
   <v-navigation-drawer
+  style="height: 100%;"
     v-model="drawer"
     app>
     <v-list dense flat>
@@ -30,6 +31,14 @@
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item @click="clear()">
+        <v-list-item-action>
+          <v-icon>delete</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Clear</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -46,17 +55,18 @@
   </v-app-bar>
 
 
-  <v-content>
+  <v-content
+  style="height: 100%">
     <v-container
       fluid
       class="pa-0"
-      style="">
+      style="height: 100%;">
       <v-carousel
         v-model="nav"
         :continuous="false"
         :hide-delimiters="true"
         :show-arrows="false"
-        height="calc(100vh - 112px)">
+        height="100%">
         <v-carousel-item>
           <ScoreBoardHome/>
         </v-carousel-item>
@@ -139,6 +149,10 @@ export default class Home extends Vue{
         localStorage.removeItem("user");
       })
     }
+  }
+
+  clear() {
+    localStorage.clear();
   }
 
 

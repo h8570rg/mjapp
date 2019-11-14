@@ -1,6 +1,6 @@
 <template>
   <v-container
-  style="height: 100%; overflow-y: scroll"
+  style="height: 100%; overflow-y: auto"
   fluid>
     <h2 class="headline grey--text">ルールを選択してください</h2>
     <v-col>
@@ -311,7 +311,9 @@ export default class ScoreBoardHome extends Vue {
   toNewScoreBoard() {
     localStorage.setItem("selectedRule", JSON.stringify(this.selectedRule));
     localStorage.removeItem("scores");
+    localStorage.removeItem("chips");
     localStorage.removeItem("players");
+    localStorage.setItem("title", JSON.stringify(String(new Date())));
     this.$router.push('/scoreboard');
     this.changeLastUse(this.selectedRule);
   }

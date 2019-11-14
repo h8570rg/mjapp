@@ -1,6 +1,6 @@
 <template>
   <v-container
-  style="height: 100%; overflow-y: scroll"
+  style="height: 100%; overflow-y: auto"
   fluid>
     <h2 class="headline grey--text">店舗を選択してください</h2>
     <v-col>
@@ -103,6 +103,10 @@
       </v-card>
     </v-dialog>
 
+    <v-overlay :value="load">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+
   </v-container>
 </template>
 
@@ -114,7 +118,9 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class FreeHome extends Vue {
+  parlorsRef = this.$firestore.collection("users").doc(this.user.id).collection("freeScore");
   parlors: any[] = [];
+  load = true;
   showNewParlor: boolean = false;
   newParlor = {
     name: "",
@@ -135,6 +141,11 @@ export default class FreeHome extends Vue {
     rateItems: [ 1, 2, 3, 5, 10, 20 ],
     numberOfPlayersItems: [ 3, 4 ],
   }
+
+  get user() {
+    return JSON.parse(localStorage.getItem("user") as string)
+  }
+
   get sortedParlors() {
     return this.parlors.sort((a: any, b: any) => {
       if (new Date(a.lastUse) < new Date(b.lastUse)) {
@@ -147,11 +158,21 @@ export default class FreeHome extends Vue {
   }
 
   created() {
-    // ローカルストレージから読み込み
-    const parlors = JSON.parse(localStorage.getItem("parlors") as string);
-    if (parlors !== null) {
-      this.parlors = parlors;
-    }
+    this.parlorsRef.onSnapshot(docs => {
+      let parlors: any[] = []
+      docs.forEach(doc => {
+        parlors.push({
+          name: doc.data().name,
+          rate: doc.data().rate,
+          numberOfPlayers: doc.data().numberOfPlayers,
+          lastUse: doc.data().lastUse
+        })
+      })
+      Vue.nextTick(() => {
+        this.parlors = parlors;
+        this.load = false;
+      })
+    })
   }
 
   closeNewParlor() {
@@ -161,10 +182,13 @@ export default class FreeHome extends Vue {
 
   saveNewParlor() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
-      this.newParlor.lastUse = String(new Date());
-      const newParlor = JSON.parse(JSON.stringify(this.newParlor))
-      this.parlors.push(newParlor);
-      localStorage.setItem("parlors", JSON.stringify(this.parlors))
+      this.parlorsRef.doc(this.newParlor.name).set({
+        name: this.newParlor.name,
+        rate: this.newParlor.rate,
+        numberOfPlayers: this.newParlor.numberOfPlayers,
+        lastUse: String(new Date()),
+        scores: {},
+      })
       this.showNewParlor = false;
       (this.$refs.form as HTMLFormElement).reset();
     }
@@ -172,9 +196,10 @@ export default class FreeHome extends Vue {
 
   selectParlor(parlor: any) {
     this.$router.push('/free');
+    this.parlorsRef.doc(parlor.name).update({
+      lastUse: String(new Date())
+    })
     localStorage.setItem("selectedParlor", JSON.stringify(parlor));
-    parlor.lastUse = new Date();
-    localStorage.setItem("parlors",JSON.stringify(this.parlors));
   }
 }
 </script>

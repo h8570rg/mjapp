@@ -62,7 +62,7 @@
               height="100%"
               width="100%"
               class="pa-0"
-              @click="openPlayerModal(index)"
+              @click="openPlayerChangeModal(index)"
               >
               </v-btn>
             </v-col>
@@ -190,96 +190,161 @@
     </v-carousel>
 
     <!-- モーダル -->
-
     <!-- プレイヤーモーダル -->
     <v-dialog
-    persistent
-    v-model="showPlayerModal"
-    max-width="600px">
+      persistent
+      v-model="showPlayerModal"
+      max-width="600px"
+    >
       <v-card>
-        <v-card-title>
-          <span class="headline">プレイヤー名変更</span>
+        <v-card-title class="headline">
+          <span v-if="playerModalType == 'change'">プレイヤー名変更</span>
+          <span v-if="playerModalType == 'add'">プレイヤー追加</span>
         </v-card-title>
         <v-card-text class="pb-0">
           <v-container>
             <v-form ref="playerForm">
-              <v-row
-              class="d-flex flex-nowrap align-center">
+              <v-row class="d-flex flex-nowrap align-center">
                 <v-text-field
-                v-model="newPlayerNickName"
-                class="mx-4"
-                label="Name"
-                :rules="[v => !!v || '名前を入力してください']"
-                required>
-                </v-text-field>
+                  v-model="newPlayer.nickName"
+                  class="mx-4"
+                  label="Name"
+                  :rules="[
+                    v => !!v || '名前を入力してください',
+                    v => (v && v.length <= 10) || '名前が長すぎます'
+                  ]"
+                  required
+                ></v-text-field>
                 <v-btn
-                x-small
-                class="px-0"
-                color="primary"
-                height="30px"
-                @click="searchPlayer()">
+                  x-small
+                  class="px-0"
+                  color="primary"
+                  height="30px"
+                  @click="searchPlayer()"
+                >
                   <v-icon small>search</v-icon>
                 </v-btn>
               </v-row>
             </v-form>
           </v-container>
           <v-alert
-          type="error"
-          class="py-2"
-          v-if="newPlayerError"
-          >{{errorMessage}}</v-alert>
+            type="error"
+            class="py-2"
+            v-if="playerModalError"
+          >
+            {{playerModalErrorMessage}}
+          </v-alert>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" text @click="deletePlayer()">Delete</v-btn>
+          <v-btn
+            v-if="playerModalType == 'change'"
+            text
+            color="red"
+            @click="deletePlayer()"
+          >
+            Delete
+          </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closePlayerModal()">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="savePlayer()">Save</v-btn>
+          <v-btn
+            text
+            color="blue darken-1"
+            @click="closePlayerModal()"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            v-if="playerModalType == 'change'"
+            color="blue darken-1"
+            text
+            @click="changePlayer()"
+          >
+            Save
+          </v-btn>
+          <v-btn
+            v-if="playerModalType == 'add'"
+            color="blue darken-1"
+            text
+            @click="addPlayer()"
+          >
+            Add
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <!-- プレイヤー追加モーダル -->
+    <!-- プレイヤー検索モーダル -->
     <v-dialog
-    persistent
-    v-model="showPlayerAddModal"
-    max-width="600px">
+      persistent
+      v-model="showSearchPlayerModal"
+      max-width="600px"
+    >
       <v-card>
         <v-card-title>
-          <span class="headline">プレイヤー追加</span>
+          <span class="headline">プレイヤー検索</span>
         </v-card-title>
         <v-card-text class="pb-0">
           <v-container>
-            <v-form ref="playerAddForm">
-              <v-row
-              class="d-flex flex-nowrap align-center">
+            <v-form ref="searchPlayerForm">
+              <v-col class="pa-0">
                 <v-text-field
-                v-model="newPlayerAddNickName"
-                class="mx-4"
-                label="New Player"
-                :rules="[v => !!v || '名前を入力してください']"
-                required>
+                  v-model="searchPlayerFilter"
+                  class="ma-0 pa-0"
+                  label="filter"
+                  prepend-inner-icon="search"
+                >
                 </v-text-field>
-                <v-btn
-                x-small
-                class="px-0"
-                color="primary"
-                height="30px"
-                @click="searchPlayerAdd()">
-                  <v-icon small>search</v-icon>
-                </v-btn>
-              </v-row>
+                <div
+                  style="height: 250px; overflow-y: auto"
+                  class="px-3"
+                >
+                  <div
+                    v-for="(player, index) in filteredSearchPlayers"
+                    :key="player.id"
+                    class="my-1"
+                  >
+                    <input
+                      type="radio"
+                      :id="player.id"
+                      :value="index"
+                      v-model="selectedSearchPlayerIndex"
+                      style="display: none"
+                      class="searchPlayer"
+                    >
+                    <label
+                      :for="player.id"
+                      class="searchPlayer__label"
+                    >
+                      <div class="py-1 px-3">
+                        <p
+                          class="ma-0"
+                          style="text-align: left"
+                        >
+                          {{player.nickName}}
+                        </p>
+                        <p
+                          class="ma-0"
+                          style="text-align: left"
+                        >
+                          {{player.name.lastName}} {{player.name.firstName}}
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+              </v-col>
             </v-form>
           </v-container>
           <v-alert
           type="error"
           class="py-2"
-          v-if="newPlayerAddError"
-          >{{errorMessage}}</v-alert>
+          v-if="searchPlayerModalError"
+          >{{searchPlayerModalErrorMessage}}</v-alert>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closePlayerAddModal()">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="savePlayerAdd()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="closeSearchPlayer()">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="saveSearchPlayer()">ok</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -350,8 +415,8 @@
           <v-alert
           type="error"
           class="py-2"
-          v-if="newScoreError"
-          >{{errorMessage}}</v-alert>
+          v-if="scoreModalError"
+          >{{scoreModalErrorMessage}}</v-alert>
         </v-card-text>
         <v-card-actions>
           <v-btn color="red" text @click="deleteScores()">Delete</v-btn>
@@ -415,8 +480,8 @@
           <v-alert
           type="error"
           class="py-2"
-          v-if="newChipError"
-          >{{errorMessage}}</v-alert>
+          v-if="chipModalError"
+          >{{chipModalErrorMessage}}</v-alert>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -456,6 +521,11 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import ScoreBoardData from '../components/ScoreBoard/ScoreBoardData.vue'
 import ScoreBoardGraph from '../components/ScoreBoard/ScoreBoardGraph.vue'
 
+interface player {
+  nickName: string,
+  id: string
+}
+
 @Component({
   components: {
     ScoreBoardData,
@@ -463,13 +533,16 @@ import ScoreBoardGraph from '../components/ScoreBoard/ScoreBoardGraph.vue'
   },
 })
 export default class ScoreBoard extends Vue {
+  scoresRef = this.$firestore.collection("scores");
+  usersRef = this.$firestore.collection("users");
+
   // データ関連
   private rule: any = {};
   private scores: any[] = [];
   private chips: any[] = [];
   private numberOfPlayers = 4;
   private defaultScore = 25000;
-  // private title = "2019/10/06";
+  private title = "";
   private players = [
     { id: "player1", nickName: "player1" },
     { id: "player2", nickName: "player2" },
@@ -478,47 +551,56 @@ export default class ScoreBoard extends Vue {
   ]
 
   // プレイヤーモーダル関連
-  private showPlayerModal = false;
-  private selectedPlayerIndex = 0;
-  private newPlayerNickName = "";
-  private newPlayerId: string = "";
-  private newPlayerError: boolean = false;
+  showPlayerModal = false;
+  playerModalType = "";
+  selectedPlayerIndex = 0;
+  newPlayer: player = {
+    nickName: "",
+    id: ""
+  }
+  playerModalError = false;
+  playerModalErrorMessage = "";
 
-  @Watch('newPlayerNickName')
-  onTextChangedA(newText: string, oldText: string) {
-    this.newPlayerId = newText;
+  // プレイヤー検索モーダル関連
+  showSearchPlayerModal = false;
+  searchPlayers: any[] = [];
+  selectedSearchPlayerIndex = "";
+  searchPlayerFilter = "";
+  searchPlayerModalError = false;
+  searchPlayerModalErrorMessage = "";
+  get filteredSearchPlayers() {
+    if (this.searchPlayerFilter == "") {
+      return [];
+    } else {
+      return this.searchPlayers.filter(player => {
+        return player.nickName.indexOf(this.searchPlayerFilter) !== -1
+          || player.name.firstName.indexOf(this.searchPlayerFilter) !== -1 
+          || player.name.lastName.indexOf(this.searchPlayerFilter) !== -1
+      })
+    }
   }
 
-  // プレイヤー追加モーダル関連
-  private showPlayerAddModal = false;
-  private newPlayerAddNickName = "";
-  private newPlayerAddId: string = "";
-  private newPlayerAddError: boolean = false;
-
-  @Watch('newPlayerAddNickName')
-  onTextChangedB(newText: string, oldText: string) {
-    this.newPlayerAddId = newText;
-  }
 
   // スコアモーダル関連
   private showScoresModal = false;
   private selectedGameIndex = 0;
   private scoreModalSwitch = false;
-  private newScoreError = false;
+  scoreModalError = false;
+  scoreModalErrorMessage = "";
   private newScores: number[] = [];
   private tobashi = "";
 
   // チップモーダル関連
   private showChipModal = false;
   private chipModalSwitch = false;
-  private newChipError = false;
+  chipModalError = false;
+  chipModalErrorMessage = "";
   private newChips: number[] = [];
 
   // 表示関連
   private games = 50;
   private tableHead = 2;
   private nav = 0;
-  private errorMessage = "";
 
   created() {
     // ローカルストレージから読み込み
@@ -527,6 +609,7 @@ export default class ScoreBoard extends Vue {
     const scores = JSON.parse(localStorage.getItem("scores") as string);
     const chips = JSON.parse(localStorage.getItem("chips") as string);
     const players = JSON.parse(localStorage.getItem("players") as string);
+    this.title = JSON.parse(localStorage.getItem("title") as string);
     if (rule !== null) {
       this.rule = rule;
     }
@@ -548,11 +631,35 @@ export default class ScoreBoard extends Vue {
     }
   }
 
-  save() {
-    alert("save機能は実装されていません")
+
+  // firestoreに保存するための配列→オブジェクト変換
+  formatNestedArray(arr: any) {
+    interface obj {
+      [key: string]: any;
+    }
+    const obj: obj = {};
+    for (let i = 0; i < arr.length; i++) {
+      obj[i] = arr[i];
+    }
+
+    return obj;
+    // const obj = arr.reduce((result: any, current: any, index: any) => {
+    //   result[index] = current;
+    //   return result;
+    // }, {});
   }
 
-  // テスト関数
+  save() {
+    this.scoresRef.doc(this.title).set({
+      date: String(new Date()),
+      players: this.players,
+      scores: this.formatNestedArray(this.scores),
+      rule: this.rule,
+      chips: this.chips
+    });
+    alert("saveしました");
+  }
+
   reset() {
     let result = confirm("本当にリセットしますか？");
     if (result) {
@@ -563,10 +670,12 @@ export default class ScoreBoard extends Vue {
           { id: "player2", nickName: "player2" },
           { id: "player3", nickName: "player3" },
           { id: "player4", nickName: "player4" },
-        ]
+        ];
+      this.title = String(new Date());
       localStorage.setItem("chips", JSON.stringify(this.chips));
       localStorage.setItem("scores", JSON.stringify(this.scores));
       localStorage.setItem("players", JSON.stringify(this.players));
+      localStorage.setItem("title", JSON.stringify(this.title));
     }
   }
 
@@ -599,7 +708,7 @@ export default class ScoreBoard extends Vue {
   }
 
   getTotal (id: string) {
-    const personalScores = this.scores.map((el: any) => {
+    const personalScores = this.scores!.map((el: any) => {
       return el.find((el: any) => {
         return el.id === id;
      })
@@ -620,42 +729,52 @@ export default class ScoreBoard extends Vue {
 
   // モーダル関連
   // プレイヤーモーダル
-  openPlayerModal(index: number) {
+  openPlayerChangeModal(index: number) {
     this.selectedPlayerIndex = index;
-    this.newPlayerError = false;
-    this.newPlayerNickName = this.players[index].nickName;
+    this.newPlayer.nickName = this.players[index].nickName;
+    this.playerModalType = 'change';
     this.showPlayerModal = true;
+  }
+  openPlayerAddModal() {
+    this.playerModalType = 'add';
+    this.showPlayerModal = true;
+  }
+  resetPlayerModal() {
+    (this.$refs.playerForm as HTMLFormElement).reset();
+    this.playerModalError = false;
+    this.newPlayer.id = "";
   }
   closePlayerModal() {
     this.showPlayerModal = false;
-    (this.$refs.playerForm as HTMLFormElement).reset();
+    this.resetPlayerModal();
   }
-  savePlayer() {
+  changePlayer() {
+    if (this.newPlayer.id.length <= 12) {
+      this.newPlayer.id = this.newPlayer.nickName;
+    }
     if ((this.$refs.playerForm as HTMLFormElement).validate()) {
-      let existIds = this.players.map((player: any) => player.id);
-      if(existIds.includes(this.newPlayerId)){
-        this.errorMessage = "その名前は既に存在しています"
-        this.newPlayerError = true;
+      let existIds = this.players.map(player => player.id);
+      let existNickNames = this.players.map(player => player.nickName);
+      if(existIds.includes(this.newPlayer.id) || existNickNames.includes(this.newPlayer.nickName)){
+        this.playerModalErrorMessage = "その名前は既に存在しています"
+        this.playerModalError = true;
       } else {
+        
+        // 既存のスコアの変更
+        const oldPlayerId = this.players[this.selectedPlayerIndex].id;
+        const oldScores = JSON.stringify(this.scores);
+        const newScores = oldScores.replace(new RegExp('"id":"'+oldPlayerId+'"',"g"), '"id":"'+this.newPlayer.id+'"');
+        this.scores = JSON.parse(newScores);
+        localStorage.setItem("scores", JSON.stringify(this.scores));
 
-      // 既存のスコアの変更
-      const oldPlayerId = this.players[this.selectedPlayerIndex].id;
-      const oldScores = JSON.stringify(this.scores);
-      const newScores = oldScores.replace(new RegExp('"id":"'+oldPlayerId+'"',"g"), '"id":"'+this.newPlayerId+'"');
-      this.scores = JSON.parse(newScores);
-      localStorage.setItem("scores", JSON.stringify(this.scores));
-
-      // プレイヤー変更
-      let newPlayer = { id: this.newPlayerId, nickName: this.newPlayerNickName };
-      this.players[this.selectedPlayerIndex] = JSON.parse(JSON.stringify(newPlayer));
-      localStorage.setItem("players", JSON.stringify(this.players));
-      this.showPlayerModal = false;
-      (this.$refs.playerForm as HTMLFormElement).reset();
+        // プレイヤー変更
+        let newPlayer = { id: this.newPlayer.id, nickName: this.newPlayer.nickName };
+        this.players[this.selectedPlayerIndex] = JSON.parse(JSON.stringify(newPlayer));
+        localStorage.setItem("players", JSON.stringify(this.players));
+        this.showPlayerModal = false;
+        this.resetPlayerModal();
       }
     }
-  }
-  searchPlayer() {
-    alert("検索機能は実装されていません")
   }
   deletePlayer() {
     let result = confirm("削除すると収支が合わなくなる可能性があります。\n本当に削除しますか？")
@@ -663,37 +782,72 @@ export default class ScoreBoard extends Vue {
       this.players.splice(this.selectedPlayerIndex, 1);
       localStorage.setItem("players", JSON.stringify(this.players));
       this.showPlayerModal = false;
-      (this.$refs.playerForm as HTMLFormElement).reset();
+      this.resetPlayerModal();
     }
   }
-
-  // プレイヤー追加モーダル
-  openPlayerAddModal() {
-    // this.newPlayerNickName = "";
-    this.showPlayerAddModal = true;
-  }
-  closePlayerAddModal() {
-    this.showPlayerAddModal = false;
-    (this.$refs.playerAddForm as HTMLFormElement).reset();
-  }
-  savePlayerAdd() {
-    if ((this.$refs.playerAddForm as HTMLFormElement).validate()) {
+  addPlayer() {
+    if (this.newPlayer.id.length <= 12) {
+      this.newPlayer.id = this.newPlayer.nickName;
+    }
+    if ((this.$refs.playerForm as HTMLFormElement).validate()) {
       let existIds = this.players.map((player: any) => player.id);
-      if(existIds.includes(this.newPlayerAddId)){
-        this.errorMessage = "その名前は既に存在しています"
-        this.newPlayerAddError = true;
+      let existNickNames = this.players.map((player: any) => player.nickName);
+      if(existIds.includes(this.newPlayer.id) || existNickNames.includes(this.newPlayer.nickName)){
+        this.playerModalErrorMessage = "その名前は既に存在しています"
+        this.playerModalError = true;
       } else {
-      // プレイヤー追加
-      let newPlayer = { id: this.newPlayerAddId, nickName: this.newPlayerAddNickName };
-      this.players.push(JSON.parse(JSON.stringify(newPlayer)));
-      localStorage.setItem("players", JSON.stringify(this.players));
-      this.showPlayerAddModal = false;
-      (this.$refs.playerAddForm as HTMLFormElement).reset();
+        
+        // プレイヤー追加
+        let newPlayer = { id: this.newPlayer.id, nickName: this.newPlayer.nickName };
+        this.players.push(JSON.parse(JSON.stringify(newPlayer)));
+        localStorage.setItem("players", JSON.stringify(this.players));
+        this.showPlayerModal = false;
+        this.resetPlayerModal();
       }
     }
   }
-  searchPlayerAdd() {
-    alert("検索機能は実装されていません")
+
+  // プレイヤー検索モーダル
+  searchPlayer() {
+    this.showSearchPlayerModal = true;
+    let players: any[] = [];
+    this.usersRef.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc: any) => {
+        players.push(
+          {
+            id: doc.id,
+            nickName: doc.data().nickName,
+            name: doc.data().name,
+            email: doc.data().email
+          }
+        )
+      })
+      this.searchPlayers = players;
+    });
+  }
+  resetSearchPlayerModal() {
+    // (this.$refs.searchPlayerForm as HTMLFormElement).reset();
+    this.searchPlayerFilter = "";
+    this.selectedSearchPlayerIndex = "";
+    this.searchPlayerModalError = false;
+  }
+  closeSearchPlayer() {
+    this.showSearchPlayerModal = false;
+    this.resetSearchPlayerModal();
+  }
+  saveSearchPlayer() {
+    const selectedPlayer = this.filteredSearchPlayers[Number(this.selectedSearchPlayerIndex)]
+    this.newPlayer.nickName = selectedPlayer.nickName;
+    this.newPlayer.id = selectedPlayer.id;
+    Vue.nextTick(() => {
+      if (this.playerModalType == 'change') {
+        this.changePlayer();
+      } else if (this.playerModalType == 'add') {
+        this.addPlayer();
+      }
+    })
+    this.showSearchPlayerModal = false;
+    this.resetSearchPlayerModal();
   }
   
   // スコアモーダル
@@ -852,20 +1006,23 @@ export default class ScoreBoard extends Vue {
     let scores = []
     // 合計0判定
     if (this.getScoresModalTotal() !== 0) {
-      this.errorMessage = "合計が0になるように入力してください"
-      this.newScoreError = true;
+      this.scoreModalErrorMessage = "合計が0になるように入力してください"
+      this.scoreModalError = true;
     } else {
       // 点数をscoresに入力
       for (let i = 0; i < players.length; i++) {
         if (typeof newScores[i] == "number") {
-          let score = { id: players[i].id, score: newScores[i] };
+          let score = {
+            id: players[i].id,
+            score: newScores[i],
+          };
           scores.push(score)
         }
       }
       // n人判定
       if(scores.length !== this.numberOfPlayers) {
-        this.errorMessage = this.numberOfPlayers + "人分の数値を入力してください"
-        this.newScoreError = true;
+        this.scoreModalErrorMessage = this.numberOfPlayers + "人分の数値を入力してください"
+        this.scoreModalError = true;
       } else {
         
         // 点数をptに変える
@@ -880,7 +1037,7 @@ export default class ScoreBoard extends Vue {
           this.scores[this.selectedGameIndex-1] = scores;
         }
         localStorage.setItem("scores", JSON.stringify(this.scores));
-        this.newScoreError = false;
+        this.scoreModalError = false;
         this.showScoresModal = false;
         this.newScores = [];
       }
@@ -921,8 +1078,8 @@ export default class ScoreBoard extends Vue {
 
     // 合計0判定
     if (this.getChipModalTotal() !== 0) {
-      this.errorMessage = "合計が0になるように入力してください"
-      this.newChipError = true;
+      this.chipModalErrorMessage = "合計が0になるように入力してください"
+      this.chipModalError = true;
     } else {
 
       // 点数をscoresに入力
@@ -941,7 +1098,7 @@ export default class ScoreBoard extends Vue {
       }
       this.chips = chips;
       localStorage.setItem("chips", JSON.stringify(this.chips));
-      this.newChipError = false;
+      this.chipModalError = false;
       this.showChipModal = false;
       this.newChips = [];
     }
@@ -975,7 +1132,7 @@ $header-height: 60px;
   position: absolute;
   height: calc(100% - 59px - 130px);
   top: $header-height;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .footer {
@@ -987,6 +1144,22 @@ $header-height: 60px;
 
 .minus{
   color: red;
+}
+
+.searchPlayer__label div {
+  color: rgba(0,0,0,0.87);
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  box-sizing: border-box;
+  p:nth-of-type(2) {
+    color: rgba(0,0,0,0.54);
+    font-size: 10px;
+  }
+}
+
+.searchPlayer:checked + .searchPlayer__label div {
+  color: teal;
+  border: 2px solid teal;
 }
 
 .v-btn:hover:before,

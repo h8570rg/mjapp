@@ -1,5 +1,5 @@
 <template>
-  <v-col style="height: 100%; overflow-y: scroll" class="px-0">
+  <v-col style="height: 100%; overflow-y: auto" class="px-0">
     <v-row class="justify-center ma-0">
 
       <v-card
