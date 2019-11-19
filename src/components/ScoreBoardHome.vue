@@ -15,7 +15,10 @@
         :key="rule.title">
           <v-card-title
           class="headline font-weight-bold py-2">
-            <v-icon class="mr-2">list</v-icon>{{rule.title}}
+            <v-icon class="mr-2">list</v-icon>
+            {{rule.title}}
+            <v-spacer></v-spacer>
+            <v-icon small v-for="index in rule.numberOfPlayers" :key="index">person</v-icon>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text
@@ -31,8 +34,8 @@
                 <v-row class="ma-0">
                   <div
                   class="mr-2"
-                  v-for="uma in rule.uma"
-                  :key="uma">
+                  v-for="(uma, index) in rule.uma"
+                  :key="index">
                     {{uma}}pt
                   </div>
                 </v-row>
@@ -45,10 +48,6 @@
             <v-row>
               <v-col class="py-0" cols="3">チップ</v-col>
               <v-col class="py-0">{{rule.chip}}pt</v-col>
-            </v-row>
-            <v-row>
-              <v-col class="py-0" cols="3">返し</v-col>
-              <v-col class="py-0">{{rule.kaeshi}}点</v-col>
             </v-row>
             <v-row>
               <v-col class="py-0" cols="3">清算方法</v-col>
@@ -101,27 +100,71 @@
                 </v-row>
                 <v-row>
                   <v-select
-                  v-model.number="newRule.rate"
-                  :items="[1,2,3,5,10,20,50,100,200]"
-                  label="レート"
-                  hint="例: 5 → 1000点50円"
-                  :rules="[v => !!v || 'レートを選択してください']"
+                  v-model.number="newRule.numberOfPlayers"
+                  :items="formRules.numberOfPlayersItems"
+                  item-text="label"
+                  item-value="value"
+                  label="プレイ人数"
+                  :rules="[v => !!v || 'プレイ人数を選択してください']"
                   required>
                   </v-select>
                 </v-row>
                 <v-row>
                   <v-select
+                  v-model.number="newRule.rate"
+                  :items="formRules.rateItems"
+                  item-text="label"
+                  item-value="value"
+                  label="レート"
+                  hint="例: 点5 → 1000点50円"
+                  :rules="[v => (!!v || 0 ) || 'レートを選択してください']"
+                  required>
+                  </v-select>
+                </v-row>
+                <v-row v-if="newRule.numberOfPlayers == 4">
+                  <v-select
                   v-model="newRule.uma"
                   :rules="[v => !!v || 'ウマを選択してください']"
-                  :items="formRules.umaItems"
-                  label="ウマ"
+                  :items="formRules.umaItems4"
+                  item-text="label"
+                  item-value="value"
+                  label="ウマ">
+                  </v-select>
+                </v-row>
+                <v-row  v-if="newRule.numberOfPlayers == 3">
+                  <v-select
+                  v-model="newRule.uma"
+                  :rules="[v => !!v || 'ウマを選択してください']"
+                  :items="formRules.umaItems3"
+                  item-text="label"
+                  item-value="value"
+                  label="ウマ">
+                  </v-select>
+                </v-row>
+                <v-row>
+                  <v-select
+                  v-model.number="newRule.defaultScore"
+                  :rules="[v => !!v || '持ち点を選択してください']"
+                  :items="formRules.defaultScoreItems"
+                  suffix="点"
+                  label="持ち点"
+                  required>
+                  </v-select>
+                </v-row>
+                <v-row>
+                  <v-select
+                  v-model.number="newRule.kaeshi"
+                  :rules="[v => !!v || 'オカを選択してください']"
+                  :items="formRules.okaItems"
+                  suffix="点返し"
+                  label="オカ"
                   required>
                   </v-select>
                 </v-row>
                 <v-row>
                   <v-select
                   v-model.number="newRule.bonus"
-                  :rules="[v => (!!v || v==0) || '飛び賞を選択してください']"
+                  :rules="[v => v !== null || '飛び賞を選択してください']"
                   :items="formRules.bonusItems"
                   suffix="pt"
                   label="飛び賞"
@@ -135,16 +178,6 @@
                   :items="formRules.chipItems"
                   suffix="pt"
                   label="チップ"
-                  required>
-                  </v-select>
-                </v-row>
-                <v-row>
-                  <v-select
-                  v-model.number="newRule.kaeshi"
-                  :rules="[v => !!v || 'オカを選択してください']"
-                  :items="formRules.okaItems"
-                  suffix="点返し"
-                  label="オカ"
                   required>
                   </v-select>
                 </v-row>
@@ -197,11 +230,9 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class ScoreBoardHome extends Vue {
-  public rules: any[] = [];
-  private showNewRule = false;
+  showNewRule = false;
   showConfirm = false;
-  selectedRule: any = {};
-  private newRule = {
+  newRule = {
     title: "",
     rate: null,
     uma: null,
@@ -209,31 +240,55 @@ export default class ScoreBoardHome extends Vue {
     chip: null,
     bonus: null,
     lastUse: "Date()",
-    round: ""
-  }
-  private formRules = {
+    round: "",
+    numberOfPlayers: null,
+    defaultScore: null,
+  };
+  selectedRule: any = [];
+  formRules = {
+    numberOfPlayersItems: [
+      { label: "四麻", value: 4 },
+      { label: "三麻", value: 3 },
+    ],
+    rateItems: [
+      { label: "点1", value: 1 },
+      { label: "点2", value: 2 },
+      { label: "点3", value: 3 },
+      { label: "点5", value: 5 },
+      { label: "点10", value: 10 },
+      { label: "点20", value: 20 },
+      { label: "点50", value: 50 },
+      { label: "点100", value: 100 },
+      { label: "点200", value: 200 },
+    ],
     name: [
       (v: any) => !!v || 'タイトルを入力してください',
-      (v: any) => (v && v.length<20) || '長すぎます'
+      (v: any) => (v && v.length<20) || '長すぎます',
+      (v: any) => {
+        let titles = this.sortedRules.map((e: any) => {
+          return e.title;
+        })
+        if (titles.indexOf(v) >= 0) {
+          return 'その名前はすでに存在しています'
+        } else {
+          return true
+        }
+      }
     ],
-    umaItems: [
-      [
-        10, 5, -5, -10
-      ],
-      [
-        20, 10, -10, -20
-      ],
-      [
-        30, 10, -10, -30
-      ],
-      [
-        40, 20, -20, -40
-      ],
+    umaItems4: [
+      { label: "なし", value: [0, 0, 0, 0] },
+      { label: "10pt 5pt -5pt -10pt", value: [10, 5, -5, -10] },
+      { label: "20pt 10pt -10pt -20pt", value: [20, 10, -10, -20] },
+      { label: "30pt 10pt -10pt -30pt", value: [30, 10, -10, -30] },
+      { label: "40pt 20pt -20pt -40pt", value: [40, 20, -20, -40] },
+    ],
+    umaItems3: [
+      { label: "なし", value: [0, 0, 0] },
+      { label: "10pt 0pt -10pt", value: [10, 0, -10] },
+      { label: "20pt 0pt -20pt", value: [20, 0, -20] },
     ],
     okaItems: [
-      25000,
-      30000,
-      40000
+      25000, 30000, 35000, 40000
     ],
     chipItems: [
       1, 2, 3, 4, 5, 10, 20
@@ -242,34 +297,15 @@ export default class ScoreBoardHome extends Vue {
       0, 5, 10, 20
     ],
     roundItems: [
-      "五捨六入",
-      "四捨五入",
-      "切り捨て",
-      "切り上げ",
+      "五捨六入", "四捨五入", "切り捨て", "切り上げ",
+    ],
+    defaultScoreItems: [
+      25000, 35000
     ]
-  }
+  };
 
   get sortedRules() {
-    return this.rules.sort((a: any, b: any) => {
-      if (new Date(a.lastUse) < new Date(b.lastUse)) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    );
-  }
-
-  created() {
-    // ローカルストレージから読み込み
-    const rules = JSON.parse(localStorage.getItem("rules") as string);
-    if (rules !== null) {
-      this.rules = rules;
-    }
-    // console.log(new Date());
-    // console.log(this.rules[0].lastUse);
-    // console.log(new Date(this.rules[0].lastUse));
-    
+    return this.$store.getters['ScoreBoard/sortedRulesByLastUse'];
   }
 
   closeNewRule() {
@@ -280,49 +316,34 @@ export default class ScoreBoardHome extends Vue {
   saveNewRule() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
       this.newRule.lastUse = String(new Date());
-      const newRule = JSON.parse(JSON.stringify(this.newRule))
-      this.rules.push(newRule);
-      localStorage.setItem("rules", JSON.stringify(this.rules))
+      const newRule = JSON.parse(JSON.stringify(this.newRule));
+      this.$store.dispatch('ScoreBoard/addRule', newRule);
       this.showNewRule = false;
       (this.$refs.form as HTMLFormElement).reset();
     }
   }
 
   selectRule(rule: any) {
-    this.selectedRule = rule;
-    const scores = JSON.parse(localStorage.getItem("scores") as string);
-    if (scores == null) {
+    this.selectedRule = rule
+    const scores = this.$store.getters['ScoreBoard/scores'];
+    if (scores.length == 0) {
       this.toNewScoreBoard();
     } else {
-      if (scores.length == 0){
-        this.toNewScoreBoard();
-        } else {
-        this.showConfirm = true; 
-      }
+      this.showConfirm = true; 
     }
   }
 
   toScoreBoard() {
-    localStorage.setItem("selectedRule", JSON.stringify(this.selectedRule));
     this.$router.push('/scoreboard');
-    this.changeLastUse(this.selectedRule);
   }
 
   toNewScoreBoard() {
-    localStorage.setItem("selectedRule", JSON.stringify(this.selectedRule));
-    localStorage.removeItem("scores");
-    localStorage.removeItem("chips");
-    localStorage.removeItem("players");
-    localStorage.setItem("title", JSON.stringify(String(new Date())));
-    this.$router.push('/scoreboard');
-    this.changeLastUse(this.selectedRule);
-  }
-
-  changeLastUse(selectedRule: any) {
-    this.rules.find((rule: any) => {
-      return rule.title == selectedRule.title;
-    }).lastUse = new Date();
-    localStorage.setItem("rules",JSON.stringify(this.rules));
+    this.$store.dispatch('ScoreBoard/reset', this.selectedRule.numberOfPlayers);
+    this.$store.dispatch('ScoreBoard/gameStart', this.selectedRule);
+    const id = this.$store.getters['User/user'].id;
+    const nickName = this.$store.getters['User/user'].nickName;
+    this.$store.dispatch('ScoreBoard/changePlayer', {index: 0, id: id, nickName: nickName})
+    this.toScoreBoard();
   }
 
 }
@@ -330,4 +351,8 @@ export default class ScoreBoardHome extends Vue {
 
 <style lang="scss" scoped>
 @import '../assets/common.scss';
+
+.v-expansion-panel::before {
+  box-shadow: none;
+}
 </style>

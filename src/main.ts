@@ -4,7 +4,7 @@ import router from './router'
 import store from './store/'
 import './registerServiceWorker'
 
-import firebase from './firebase'
+// import firebase from './firebase'
 import vuetify from './plugins/vuetify';
 
 // import * as firebase from 'firebase/app';
@@ -25,7 +25,19 @@ import vuetify from './plugins/vuetify';
   //   var errorMessage = error.message;
   // });
 
-Vue.use(firebase);
+// Vue.use(firebase);
+
+// const config = {
+//   apiKey: 'AIzaSyDbmXoy_ycO8X2ox25qznPlNDOl6NBccMY',
+//   authDomain: 'mj-app-pwa.firebaseapp.com',
+//   projectId: 'mj-app-pwa'
+// }
+
+// firebase.initializeApp(config);
+
+// import firebase from 'src/firebase'
+// console.log("initialized");
+
 
 Vue.config.productionTip = false
 new Vue({

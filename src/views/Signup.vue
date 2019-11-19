@@ -96,8 +96,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+// import * as firebase from 'firebase/app';
+// import 'firebase/auth';
 
 @Component({
   components: {
@@ -164,30 +164,30 @@ export default class Signup extends Vue {
   }
 
   signup() {
-    if ((this.$refs.form as HTMLFormElement).validate()) {
-      this.loading = true
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(user => {
-          alert('Create account: '+ user.user!.email);
-          this.$firestore.collection("users").doc(user.user!.uid).set({
-            // id: user.user!.uid,
-            email: this.email,
-            name: this.name,
-            nameEng: this.nameEng,
-            nickName: this.nickName
-          })
-          this.error = false;
-          this.loading = false;
-          (this.$refs.form as HTMLFormElement).reset();
-          this.$router.push('/signin');
-        })
-        .catch(error => {
-          this.errorMessage = error.message;
-          this.error = true;
-          this.loading = false;
-          // alert(error.message)
-        })
-    }
+    // if ((this.$refs.form as HTMLFormElement).validate()) {
+    //   this.loading = true
+    //   firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+    //     .then(user => {
+    //       alert('Create account: '+ user.user!.email);
+    //       this.$firestore.collection("users").doc(user.user!.uid).set({
+    //         // id: user.user!.uid,
+    //         email: this.email,
+    //         name: this.name,
+    //         nameEng: this.nameEng,
+    //         nickName: this.nickName
+    //       })
+    //       this.error = false;
+    //       this.loading = false;
+    //       (this.$refs.form as HTMLFormElement).reset();
+    //       this.$router.push('/signin');
+    //     })
+    //     .catch(error => {
+    //       this.errorMessage = error.message;
+    //       this.error = true;
+    //       this.loading = false;
+    //       // alert(error.message)
+    //     })
+    // }
   }
 }
 </script>

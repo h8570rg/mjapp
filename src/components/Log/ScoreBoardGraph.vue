@@ -24,11 +24,11 @@ export default class ScoreBoardGraph extends Vue {
   ];
 
   get players() {
-    return this.$store.getters['ScoreBoard/players'];
+    return this.$store.getters['Log/selectedScoreBoard'].players;
   }
 
   get scores() {
-    return this.$store.getters['ScoreBoard/scores'];
+    return this.$store.getters['Log/selectedScoreBoard'].scores;
   }
 
   get datasets() {

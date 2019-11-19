@@ -60,11 +60,11 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 })
 export default class ScoreBoardData extends Vue {
   get playerData() {
-    return this.$store.getters['ScoreBoard/playerData'];
+    return this.$store.getters['Log/playerData'];
   }
 
   get rule() {
-    return this.$store.getters['ScoreBoard/rule'];
+    return this.$store.getters['Log/selectedScoreBoard'].rule;
   }
 }
 </script>

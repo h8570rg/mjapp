@@ -110,9 +110,6 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-
 import ScoreBoardHome from '../components/ScoreBoardHome.vue'
 import FreeHome from '../components/FreeHome.vue'
 import LogHome from '../components/LogHome.vue'
@@ -129,30 +126,38 @@ import PersonalScoreHome from '../components/PersonalScoreHome.vue'
 export default class Home extends Vue{
   private drawer = null;
   private nav = 0;
+  
   @Watch('nav')
   changeNav() {
-    this.$store.dispatch('changeHomeNav', this.nav)
+    this.$store.dispatch('Display/changeHomeNav', this.nav)
   }
+
   get user() {
-    return JSON.parse(localStorage.getItem("user") as string)
+    return this.$store.getters['User/user']
   }
 
   created() {
-    this.nav = this.$store.getters.homeNav;
+    this.nav = this.$store.getters['Display/homeNav'];
   }
 
   signOut() {
     let result = confirm("本当にログアウトしますか？")
     if (result) {
-      firebase.auth().signOut().then(() => {
+      this.$store.dispatch('User/signOut').then(() => {
         this.$router.push('/signin');
-        localStorage.removeItem("user");
       })
     }
   }
 
   clear() {
-    localStorage.clear();
+    let result = confirm("リセットします。データは消えません。")
+    if (result) {
+      this.$store.dispatch('User/signOut').then(() => {
+        this.$router.push('/signin');
+        localStorage.clear();
+        location.reload();
+      })
+    }
   }
 
 

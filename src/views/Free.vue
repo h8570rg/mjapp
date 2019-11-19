@@ -22,9 +22,12 @@
       </template>
       <v-list>
           <v-list-item
-            @click="deleteParlor()"
-          >
-            <v-list-item-title>削除</v-list-item-title>
+          class="px-8"
+          @click="deleteParlor()">
+            <v-list-item-title class="d-flex align-center">
+              <v-icon>delete</v-icon>
+              削除
+            </v-list-item-title>
           </v-list-item>
         </v-list>
     </v-menu>
@@ -51,6 +54,8 @@
 
     <!-- ボディ -->
     <v-row style="height: 60%">
+
+      <!-- 履歴 -->
       <v-col
       style="height: 100%;">
         <div
@@ -65,22 +70,17 @@
           <v-row
           v-for="(score, index) in scores"
           :key="index"
-          class="px-2"
           align="center"
           style="height: 10%; position: relative">
-            <v-col class="pa-0" cols="4">
-              <div
-              class="rank"
-              :class="{ first: score.rank == 1, second: score.rank == 2, third: score.rank == 3, fourth: score.rank == 4 }">
-                {{score.rank}}
-              </div>
-            </v-col>
-            <v-col class="pa-0" cols="8">
-              <v-row>
-                <v-col class="pa-0 caption" cols="8">{{new Date(score.date).getFullYear()}}/{{new Date(score.date).getMonth()+1}}/{{new Date(score.date).getDate()}}</v-col>
-                <v-col class="pa-0 caption" cols="4">{{new Date(score.date).getHours()}}:{{new Date(score.date).getMinutes()}}</v-col>
-              </v-row>
-            </v-col>
+            <div
+            class="rank mr-4"
+            :class="{ first: score.rank == 1, second: score.rank == 2, third: score.rank == 3, fourth: score.rank == 4 }">
+              {{score.rank}}
+            </div>
+            <v-row>
+              <v-col class="pa-0 caption" cols="8">{{new Date(score.date).getFullYear()}}/{{new Date(score.date).getMonth()+1}}/{{new Date(score.date).getDate()}}</v-col>
+              <v-col class="pa-0 caption" cols="4">{{new Date(score.date).getHours()}}:{{('0' + new Date(score.date).getMinutes()).slice(-2)}}</v-col>
+            </v-row>
             <v-btn
             absolute
             style="top: 0; left: 0"
@@ -94,6 +94,8 @@
           </v-row>
         </v-col>
       </v-col>
+
+      <!-- 戦績 -->
       <v-col
       style="height: 100%;">
         <div
@@ -106,22 +108,22 @@
         style="overflow: hidden; height: calc(100% - 40px);">
           <v-row>
             <v-col cols="7" align="center">対戦数</v-col>
-            <v-col cols="5" align="center" class="font-weight-bold">{{totalScore.length}}</v-col>
+            <v-col cols="5" align="center" class="font-weight-bold">{{personalData.length}}</v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
             <v-col cols="7" align="center">平均順位</v-col>
-            <v-col cols="5" align="center" class="font-weight-bold">{{totalScore.avarage}}</v-col>
+            <v-col cols="5" align="center" class="font-weight-bold">{{personalData.avarage}}</v-col>
           </v-row>
           <v-divider></v-divider>
           <v-col>
             <v-row class="mb-2" justify="center">順位</v-row>
             <v-row>
               <v-row>
-                <v-col class="pa-0 font-weight-bold" align="center">{{totalScore.first}}</v-col>-
-                <v-col class="pa-0 font-weight-bold" align="center">{{totalScore.second}}</v-col>-
-                <v-col class="pa-0 font-weight-bold" align="center">{{totalScore.third}}</v-col><span v-if="parlor.numberOfPlayers == 4">-</span>
-                <v-col class="pa-0 font-weight-bold" align="center" v-if="parlor.numberOfPlayers == 4">{{totalScore.fourth}}</v-col>
+                <v-col class="pa-0 font-weight-bold" align="center">{{personalData.first}}</v-col>-
+                <v-col class="pa-0 font-weight-bold" align="center">{{personalData.second}}</v-col>-
+                <v-col class="pa-0 font-weight-bold" align="center">{{personalData.third}}</v-col><span v-if="parlor.numberOfPlayers == 4">-</span>
+                <v-col class="pa-0 font-weight-bold" align="center" v-if="parlor.numberOfPlayers == 4">{{personalData.fourth}}</v-col>
               </v-row>
             </v-row>
           </v-col>
@@ -129,19 +131,19 @@
           <v-col class="px-0">
             <v-row>
               <v-col class="py-1" cols="7" align="center">1位率</v-col>
-              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{totalScore.firstRatio}}%</v-col>
+              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{personalData.firstRatio}}%</v-col>
             </v-row>
             <v-row>
               <v-col class="py-1" cols="7" align="center">2位率</v-col>
-              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{totalScore.secondRatio}}%</v-col>
+              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{personalData.secondRatio}}%</v-col>
             </v-row>
             <v-row>
               <v-col class="py-1" cols="7" align="center">3位率</v-col>
-              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{totalScore.thirdRatio}}%</v-col>
+              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{personalData.thirdRatio}}%</v-col>
             </v-row>
             <v-row v-if="parlor.numberOfPlayers == 4">
               <v-col class="py-1" cols="7" align="center">4位率</v-col>
-              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{totalScore.fourthRatio}}%</v-col>
+              <v-col class="py-1 font-weight-bold" cols="5" align="center">{{personalData.fourthRatio}}%</v-col>
             </v-row>
           </v-col>
         </v-col>
@@ -196,94 +198,48 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import * as firebase from 'firebase/app';
 
 @Component({
   components: {
   },
 })
 export default class ScoreBoard extends Vue {
-  scoresRef = this.$firestore.collection("users").doc(this.user.id).collection("freeScore");
-  parlor: any = {};
+  get parlor() {
+    return this.$store.getters['Free/parlor']
+  }
   rank = null;
-  scores: any[] = [];
   deleteFlag: boolean = false;
   selectedScoreIndex: number = -1;
-  
-  get user() {
-    return JSON.parse(localStorage.getItem("user") as string)
+
+  get scores() {
+    return this.$store.getters['Free/scores'];
+  }
+
+  get personalData() {
+    return this.$store.getters['Free/personalData']
+  }
+
+  @Watch('scores')
+  scroll() {
+    Vue.nextTick(()=> {
+      let container = (this.$refs.scroll as HTMLElement)
+      container.scrollTop = container.scrollHeight;
+    })
   }
 
   created() {
-    this.parlor = JSON.parse(localStorage.getItem("selectedParlor") as string);
-    this.scoresRef.doc(this.parlor.name).onSnapshot(doc => {
-      this.scores = doc.data()!.scores;
-      Vue.nextTick(() => {
-        let container = (this.$refs.scroll as HTMLElement)
-        container.scrollTop = container.scrollHeight;
-      })
-    })
+    this.$store.dispatch('Free/startListener');
+    this.scroll();
+  }
+
+  destroyed() {
+    this.$store.dispatch('Free/stopListener')
   }
 
   submit() {
     if (this.rank !== null) {
-      this.scoresRef.doc(this.parlor.name).update({
-        scores: firebase.firestore.FieldValue.arrayUnion({ date: String(new Date()), rank: this.rank })
-      })
+      this.$store.dispatch('Free/addScore', this.rank);
       this.rank = null;
-    }
-  }
-
-  get totalScore() {
-    const array = this.scores!.map((score: any) => {
-      return score.rank;
-    });
-    let first = 0;
-    let second = 0;
-    let third = 0;
-    let fourth = 0;
-    for (let i = 0; i < array.length; i++) {
-      switch (array[i]) {
-        case 1:
-          first += 1;
-          break;
-        case 2:
-          second += 1;
-          break;
-        case 3:
-          third += 1;
-          break;
-        case 4:
-          fourth += 1;
-          break;
-      }
-    }
-    const total = array.reduce((currentTotal, score) => {
-      return score + currentTotal;
-    }, 0)
-    let avarage: number = total / array.length;
-    let firstRatio: string = (first / array.length * 100).toFixed(1);
-    let secondRatio: string = (second/ array.length * 100).toFixed(1);
-    let thirdRatio: string = (third/ array.length * 100).toFixed(1);
-    let fourthRatio: string = (fourth/ array.length * 100).toFixed(1);
-    if (total == 0) {
-      avarage = 0;
-      firstRatio = "0";
-      secondRatio = "0";
-      thirdRatio = "0";
-      fourthRatio = "0";
-    }
-    return {
-      length: array.length,
-      avarage: avarage.toFixed(2),
-      first: first,
-      second: second,
-      third: third,
-      fourth: fourth,
-      firstRatio: firstRatio,
-      secondRatio: secondRatio,
-      thirdRatio: thirdRatio,
-      fourthRatio: fourthRatio
     }
   }
 
@@ -293,15 +249,19 @@ export default class ScoreBoard extends Vue {
   }
 
   deleteScore() {
-    this.scoresRef.doc(this.parlor.name).update({
-      scores: firebase.firestore.FieldValue.arrayRemove({ date: this.scores[this.selectedScoreIndex].date, rank: this.scores[this.selectedScoreIndex].rank })
+    this.$store.dispatch('Free/deleteScore',{
+      date: this.scores[this.selectedScoreIndex].date,
+      rank: this.scores[this.selectedScoreIndex].rank
     })
     this.deleteFlag = false;
   }
 
   deleteParlor() {
-    this.$router.push('/');
-    this.scoresRef.doc(this.parlor.name).delete();
+    let result = confirm('削除するともとに戻せません。本当に削除しますか？');
+    if (result) {
+      this.$store.dispatch('Free/deleteParlor')
+      this.$router.push('/');
+    }
   }
   
 }

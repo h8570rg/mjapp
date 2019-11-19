@@ -11,23 +11,27 @@
         raised
         color="purple darken-2"
         class="my-2"
-        v-for="parlor in sortedParlors"
+        v-for="parlor in parlors"
         :key="parlor.name">
           <v-card-title
           class="headline font-weight-bold py-2">
-            <v-icon class="mr-2">store</v-icon>{{parlor.name}}
+            <v-icon class="mr-2">store</v-icon>
+            {{parlor.name}}
+            <v-spacer></v-spacer>
+            <v-icon
+            small
+            v-for="index in parlor.numberOfPlayers"
+            :key="index">
+              person
+            </v-icon>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text
           class="ml-1 body-2 font-weight-regular"
           style="color: #EEE;">
             <v-row>
-              <v-col class="py-0" cols="4">レート</v-col>
+              <v-col class="py-0" cols="3">レート</v-col>
               <v-col class="py-0">点{{parlor.rate}}</v-col>
-            </v-row>
-            <v-row>
-              <v-col class="py-0" cols="4">プレイ人数</v-col>
-              <v-col class="py-0">{{parlor.numberOfPlayers}}人</v-col>
             </v-row>
           </v-card-text>
           <v-btn
@@ -78,8 +82,10 @@
                 v-model.number="newParlor.rate"
                 :rules="formRules.rate"
                 :items="formRules.rateItems"
+                item-value="value"
+                item-text="label"
                 label="レート"
-                hint="例: 5 → 1000点50円"
+                hint="例: 点5 → 1000点50円"
                 required>
                 </v-select>
               </v-row>
@@ -88,6 +94,8 @@
                 v-model="newParlor.numberOfPlayers"
                 :rules="formRules.numberOfPlayers"
                 :items="formRules.numberOfPlayersItems"
+                item-text="label"
+                item-value="value"
                 label="プレイ人数"
                 required>
                 </v-select>
@@ -103,10 +111,6 @@
       </v-card>
     </v-dialog>
 
-    <v-overlay :value="load">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
-
   </v-container>
 </template>
 
@@ -118,19 +122,29 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class FreeHome extends Vue {
-  parlorsRef = this.$firestore.collection("users").doc(this.user.id).collection("freeScore");
-  parlors: any[] = [];
-  load = true;
+  get parlors() {
+    return this.$store.getters['Free/parlors'];
+  }
+
   showNewParlor: boolean = false;
   newParlor = {
     name: "",
     rate: "",
     numberOfPlayers: null,
-    lastUse: "",
   }
   formRules = {
     name: [
       (v: any) => !!v || '店舗名を入力してください',
+      (v: any) => {
+        let names = this.parlors.map((e: any) => {
+          return e.name;
+        })
+        if (names.indexOf(v) >= 0) {
+          return 'その名前はすでに存在しています'
+        } else {
+          return true
+        }
+      }
     ],
     rate: [
       (v: any) => !!v || 'レートを選択してください',
@@ -138,41 +152,26 @@ export default class FreeHome extends Vue {
     numberOfPlayers: [
       (v: any) => !!v || 'プレイ人数を選択してください',
     ],
-    rateItems: [ 1, 2, 3, 5, 10, 20 ],
-    numberOfPlayersItems: [ 3, 4 ],
-  }
-
-  get user() {
-    return JSON.parse(localStorage.getItem("user") as string)
-  }
-
-  get sortedParlors() {
-    return this.parlors.sort((a: any, b: any) => {
-      if (new Date(a.lastUse) < new Date(b.lastUse)) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    );
+    rateItems: [
+      { label: "点1", value: 1 },
+      { label: "点2", value: 2 },
+      { label: "点3", value: 3 },
+      { label: "点5", value: 5 },
+      { label: "点10", value: 10 },
+      { label: "点20", value: 20 },
+    ],
+    numberOfPlayersItems: [
+      { label: "四麻", value: 4 },
+      { label: "三麻", value: 3 },
+    ],
   }
 
   created() {
-    this.parlorsRef.onSnapshot(docs => {
-      let parlors: any[] = []
-      docs.forEach(doc => {
-        parlors.push({
-          name: doc.data().name,
-          rate: doc.data().rate,
-          numberOfPlayers: doc.data().numberOfPlayers,
-          lastUse: doc.data().lastUse
-        })
-      })
-      Vue.nextTick(() => {
-        this.parlors = parlors;
-        this.load = false;
-      })
-    })
+    this.$store.dispatch('Free/startListener');
+  }
+  
+  destroyed() {
+    this.$store.dispatch('Free/stopListener')
   }
 
   closeNewParlor() {
@@ -182,13 +181,7 @@ export default class FreeHome extends Vue {
 
   saveNewParlor() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
-      this.parlorsRef.doc(this.newParlor.name).set({
-        name: this.newParlor.name,
-        rate: this.newParlor.rate,
-        numberOfPlayers: this.newParlor.numberOfPlayers,
-        lastUse: String(new Date()),
-        scores: {},
-      })
+      this.$store.dispatch('Free/addParlor', this.newParlor)
       this.showNewParlor = false;
       (this.$refs.form as HTMLFormElement).reset();
     }
@@ -196,10 +189,7 @@ export default class FreeHome extends Vue {
 
   selectParlor(parlor: any) {
     this.$router.push('/free');
-    this.parlorsRef.doc(parlor.name).update({
-      lastUse: String(new Date())
-    })
-    localStorage.setItem("selectedParlor", JSON.stringify(parlor));
+    this.$store.dispatch('Free/gameStart', parlor)
   }
 }
 </script>
