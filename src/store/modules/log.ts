@@ -71,6 +71,7 @@ const actions = {
             freeScores.push(
               {
                 parlor: doc.data().name,
+                numberOfPlayers: doc.data().numberOfPlayers,
                 date: {
                   year: scoreDate.year,
                   month: scoreDate.month,
@@ -128,6 +129,7 @@ const getters = {
       const pd = freeScorePersonalData(e.ranks);
       freeScoresData.push({
         parlor: e.parlor,
+        numberOfPlayers: e.numberOfPlayers,
         date: String(new Date(e.date.year, e.date.month, e.date.day)),
         ranks: e.ranks,
         length: pd.length,

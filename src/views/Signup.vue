@@ -2,14 +2,14 @@
 <v-app>
     <v-container fill-height fluid>
       <v-col class="pa-7">
-        <h2>Sign up</h2>
+        <h2>アカウント作成</h2>
         <v-form ref="form">
           <v-row>
             <v-text-field
             v-model="email"
             type="text"
             :rules="formRules.email"
-            prepend-icon="mail"
+            :prepend-icon="icons.mdiEmail"
             label="E-mail">
             </v-text-field>
           </v-row>
@@ -18,12 +18,12 @@
             v-model="password"
             type="password"
             :rules="formRules.password"
-            prepend-icon="lock"
+            :prepend-icon="icons.mdiLock"
             label="Password">
             </v-text-field>
           </v-row>
-          <v-row>
-            <v-icon>person</v-icon>
+          <v-row align="center">
+            <v-icon>{{icons.mdiAccount}}</v-icon>
             <v-col class="py-0">
               <v-text-field
               v-model="name.lastName"
@@ -41,8 +41,8 @@
               </v-text-field>
             </v-col>
           </v-row>
-          <v-row>
-            <v-icon>person</v-icon>
+          <v-row align="center">
+            <v-icon>{{icons.mdiAccount}}</v-icon>
             <v-col class="py-0">
               <v-text-field
               v-model="nameEng.lastName"
@@ -65,7 +65,7 @@
             v-model="nickName"
             type="text"
             :rules="formRules.nickName"
-            prepend-icon="account_circle"
+            :prepend-icon="icons.mdiAccountCircle"
             label="Nickname"
             hint="点数表に表示される名前です">
             </v-text-field>
@@ -83,11 +83,11 @@
             class="mb-10"
             height="38px"
             @click="signup()"
-            :loading="loading">register</v-btn>
+            :loading="loading">登録</v-btn>
           </v-row>
         </v-form>
-        <p>Do you have an account?
-          <router-link to="/signin">login</router-link>
+        <p>
+          <router-link to="/signin" style="text-decoration: none;">既存のアカウントでログイン</router-link>
         </p>
       </v-col>
     </v-container>
@@ -96,14 +96,21 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// import * as firebase from 'firebase/app';
-// import 'firebase/auth';
+import { db, auth } from '../firebase';
+
+import { mdiEmail, mdiLock, mdiAccount, mdiAccountCircle } from '@mdi/js'
 
 @Component({
   components: {
   },
 })
 export default class Signup extends Vue {
+  icons = {
+    mdiEmail,
+    mdiLock,
+    mdiAccount,
+    mdiAccountCircle
+  }
   email = "";
   password = "";
   name = {
@@ -154,7 +161,7 @@ export default class Signup extends Vue {
     ],
     nameEng: [
       (v: any) => !!v || '名前を入力してください',
-      (v: any) => (v && v.match(/^[A-Za-z]*$/)) || '英語で入力してください'
+      (v: any) => (v && v.match(/^[A-Za-z]*$/) !== null) || '英語で入力してください'
     ],
     nickName: [
       (v: any) => !!v || 'ニックネームを入力してください',
@@ -162,32 +169,30 @@ export default class Signup extends Vue {
     ],
     
   }
-
   signup() {
-    // if ((this.$refs.form as HTMLFormElement).validate()) {
-    //   this.loading = true
-    //   firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-    //     .then(user => {
-    //       alert('Create account: '+ user.user!.email);
-    //       this.$firestore.collection("users").doc(user.user!.uid).set({
-    //         // id: user.user!.uid,
-    //         email: this.email,
-    //         name: this.name,
-    //         nameEng: this.nameEng,
-    //         nickName: this.nickName
-    //       })
-    //       this.error = false;
-    //       this.loading = false;
-    //       (this.$refs.form as HTMLFormElement).reset();
-    //       this.$router.push('/signin');
-    //     })
-    //     .catch(error => {
-    //       this.errorMessage = error.message;
-    //       this.error = true;
-    //       this.loading = false;
-    //       // alert(error.message)
-    //     })
-    // }
+    if ((this.$refs.form as HTMLFormElement).validate()) {
+      this.loading = true
+      auth.createUserWithEmailAndPassword(this.email, this.password)
+        .then(user => {
+          alert('Create account: '+ user.user!.email);
+          db.collection("users").doc(user.user!.uid).set({
+            // id: user.user!.uid,
+            email: this.email,
+            name: this.name,
+            nameEng: this.nameEng,
+            nickName: this.nickName
+          })
+          this.error = false;
+          this.loading = false;
+          (this.$refs.form as HTMLFormElement).reset();
+          this.$router.push('/signin');
+        })
+        .catch(error => {
+          this.errorMessage = error.message;
+          this.error = true;
+          this.loading = false;
+        })
+    }
   }
 }
 </script>

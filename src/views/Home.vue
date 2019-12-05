@@ -6,39 +6,22 @@
     app>
     <v-list dense flat>
       <v-list-item-group>
-
-      <!-- <v-list-item>
-        <v-list-item-action>
-          <v-icon>home</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Home</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-action>
-          <v-icon>contact_mail</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Contact</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item> -->
-      <v-list-item @click="signOut()">
-        <v-list-item-action>
-          <v-icon>fas fa-sign-out-alt</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item @click="clear()">
-        <v-list-item-action>
-          <v-icon>delete</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Clear</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list-item @click="signOut()">
+          <v-list-item-action>
+            <v-icon>{{icons.mdiLogoutVariant}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item @click="clear()">
+          <v-list-item-action>
+            <v-icon>delete</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Clear</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> -->
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -50,7 +33,7 @@
   >
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title class="pl-2">Home</v-toolbar-title>
-    <v-icon class="ml-auto">person</v-icon>
+    <v-icon class="ml-auto">{{icons.mdiAccount}}</v-icon>
     <div class="ml-1">{{user.nameEng.firstName}} {{user.nameEng.lastName}}</div>
   </v-app-bar>
 
@@ -90,19 +73,19 @@
     color="indigo">
     <v-btn>
       <span>ScoreBoard</span>
-      <v-icon>description</v-icon>
+      <v-icon>{{icons.mdiPencil}}</v-icon>
     </v-btn>
     <v-btn>
       <span>Free</span>
-      <v-icon>language</v-icon>
+      <v-icon>{{icons.mdiStore}}</v-icon>
     </v-btn>
     <v-btn>
-      <span>Log</span>
-      <v-icon>history</v-icon>
+      <span>History</span>
+      <v-icon>{{icons.mdiHistory}}</v-icon>
     </v-btn>
     <v-btn>
-      <span>PersonalScore</span>
-      <v-icon>timeline</v-icon>
+      <span>Data</span>
+      <v-icon>{{icons.mdiChartBar}}</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </v-app>
@@ -114,6 +97,7 @@ import ScoreBoardHome from '../components/ScoreBoardHome.vue'
 import FreeHome from '../components/FreeHome.vue'
 import LogHome from '../components/LogHome.vue'
 import PersonalScoreHome from '../components/PersonalScoreHome.vue'
+import { mdiLogoutVariant, mdiAccount, mdiPencil, mdiStore, mdiHistory, mdiChartBar } from '@mdi/js';
 
 @Component({
   components: {
@@ -123,7 +107,15 @@ import PersonalScoreHome from '../components/PersonalScoreHome.vue'
     PersonalScoreHome,
   }
 })
-export default class Home extends Vue{
+export default class Home extends Vue {
+  icons = {
+    mdiLogoutVariant,
+    mdiAccount,
+    mdiPencil,
+    mdiStore,
+    mdiHistory,
+    mdiChartBar
+  }
   private drawer = null;
   private nav = 0;
   

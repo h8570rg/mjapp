@@ -15,14 +15,14 @@
         :key="parlor.name">
           <v-card-title
           class="headline font-weight-bold py-2">
-            <v-icon class="mr-2">store</v-icon>
-            {{parlor.name}}
+            <v-icon class="mr-2">{{icons.mdiStore}}</v-icon>
+              {{parlor.name}}
             <v-spacer></v-spacer>
             <v-icon
             small
             v-for="index in parlor.numberOfPlayers"
             :key="index">
-              person
+              {{icons.mdiAccount}}
             </v-icon>
           </v-card-title>
           <v-divider></v-divider>
@@ -54,7 +54,7 @@
     absolute
     style="bottom: 20px; right: 20px;"
     @click="showNewParlor = !showNewParlor">
-      <v-icon>mdi-plus</v-icon>
+      <v-icon>{{icons.mdiPlus}}</v-icon>
     </v-btn>
 
     <!-- モーダル -->
@@ -116,12 +116,22 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {
+  mdiStore,
+  mdiAccount,
+  mdiPlus
+} from '@mdi/js';
 
 @Component({
   components: {
   },
 })
 export default class FreeHome extends Vue {
+  icons = {
+    mdiStore,
+    mdiAccount,
+    mdiPlus
+  }
   get parlors() {
     return this.$store.getters['Free/parlors'];
   }

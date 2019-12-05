@@ -15,10 +15,10 @@
         :key="rule.title">
           <v-card-title
           class="headline font-weight-bold py-2">
-            <v-icon class="mr-2">list</v-icon>
+            <v-icon class="mr-2">{{icons.mdiFormatListBulletedSquare}}</v-icon>
             {{rule.title}}
             <v-spacer></v-spacer>
-            <v-icon small v-for="index in rule.numberOfPlayers" :key="index">person</v-icon>
+            <v-icon small v-for="index in rule.numberOfPlayers" :key="index">{{icons.mdiAccount}}</v-icon>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text
@@ -74,7 +74,7 @@
       absolute
       style="bottom: 20px; right: 20px;"
       @click="showNewRule = !showNewRule">
-        <v-icon>mdi-plus</v-icon>
+        <v-icon>{{icons.mdiPlus}}</v-icon>
       </v-btn>
 
       <!-- モーダル -->
@@ -223,13 +223,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+import { mdiFormatListBulletedSquare, mdiAccount, mdiPlus } from '@mdi/js';
 
 @Component({
   components: {
   },
 })
 export default class ScoreBoardHome extends Vue {
+  icons = {
+    mdiFormatListBulletedSquare,
+    mdiAccount,
+    mdiPlus,
+  }
   showNewRule = false;
   showConfirm = false;
   newRule = {

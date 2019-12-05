@@ -8,9 +8,9 @@
     <v-btn
     icon
     to="/">
-      <v-icon>arrow_back_ios</v-icon>
+      <v-icon large>{{icons.mdiChevronLeft}}</v-icon>
     </v-btn>
-    <v-toolbar-title class="pl-1">Log</v-toolbar-title>
+    <v-toolbar-title class="pl-1">History</v-toolbar-title>
     <v-spacer></v-spacer>
     <span class="font-weight-bold">{{title.getFullYear()}} / {{title.getMonth() + 1}} / {{title.getDate()}}</span>
   </v-app-bar>
@@ -52,15 +52,15 @@
   color="teal">
     <v-btn>
       <span>Score</span>
-      <v-icon>format_list_numbered</v-icon>
+      <v-icon>{{icons.mdiFormatListNumbered}}</v-icon>
     </v-btn>
     <v-btn>
       <span>Data</span>
-      <v-icon>insert_chart_outlined</v-icon>
+      <v-icon>{{icons.mdiChartBar}}</v-icon>
     </v-btn>
     <v-btn>
       <span>Graph</span>
-      <v-icon>timeline</v-icon>
+      <v-icon>{{icons.mdiChartTimelineVariant}}</v-icon>
     </v-btn>
   </v-bottom-navigation>
 
@@ -69,6 +69,8 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { mdiChevronLeft, mdiFormatListNumbered, mdiChartBar, mdiChartTimelineVariant } from '@mdi/js';
+
 import ScoreBoard from '../components/Log/ScoreBoard.vue'
 import ScoreBoardData from '../components/Log/ScoreBoardData.vue'
 import ScoreBoardGraph from '../components/Log/ScoreBoardGraph.vue'
@@ -81,6 +83,12 @@ import ScoreBoardGraph from '../components/Log/ScoreBoardGraph.vue'
   },
 })
 export default class Log extends Vue {
+  icons = {
+    mdiChevronLeft,
+    mdiFormatListNumbered,
+    mdiChartBar,
+    mdiChartTimelineVariant
+  }
   get title() {
     return new Date(this.$store.getters['Log/selectedScoreBoard'].date);
   }

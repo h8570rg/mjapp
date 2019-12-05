@@ -1,6 +1,5 @@
 <script lang="ts">
 import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
-// import Chart from 'chart.js';
 import { Line, mixins } from "vue-chartjs"
 
 @Component({

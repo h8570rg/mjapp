@@ -8,18 +8,18 @@
     <v-btn
     icon
     to="/">
-      <v-icon>arrow_back_ios</v-icon>
+      <v-icon large>{{icons.mdiChevronLeft}}</v-icon>
     </v-btn>
     <v-toolbar-title class="pl-1">ScoreBoard</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon @click="reset()">
-      <v-icon>delete</v-icon>
+      <v-icon>{{icons.mdiDelete}}</v-icon>
     </v-btn>
     <v-btn icon @click="save()">
-      <v-icon>save</v-icon>
+      <v-icon>{{icons.mdiContentSave}}</v-icon>
     </v-btn>
     <v-btn icon @click="openPlayerAddModal()">
-      <v-icon>person_add</v-icon>
+      <v-icon>{{icons.mdiAccountPlus}}</v-icon>
     </v-btn>
 
   </v-app-bar>
@@ -223,7 +223,7 @@
                   height="30px"
                   @click="searchPlayer()"
                 >
-                  <v-icon small>search</v-icon>
+                  <v-icon>{{icons.mdiMagnify}}</v-icon>
                 </v-btn>
               </v-row>
             </v-form>
@@ -291,7 +291,7 @@
                   v-model="searchPlayerFilter"
                   class="ma-0 pa-0"
                   label="filter"
-                  prepend-inner-icon="search"
+                  :prepend-inner-icon="icons.mdiMagnify"
                 >
                 </v-text-field>
                 <div
@@ -517,15 +517,15 @@
   color="teal">
     <v-btn>
       <span>Score</span>
-      <v-icon>format_list_numbered</v-icon>
+      <v-icon>{{icons.mdiFormatListNumbered}}</v-icon>
     </v-btn>
     <v-btn>
       <span>Data</span>
-      <v-icon>insert_chart_outlined</v-icon>
+      <v-icon>{{icons.mdiChartBar}}</v-icon>
     </v-btn>
     <v-btn>
       <span>Graph</span>
-      <v-icon>timeline</v-icon>
+      <v-icon>{{icons.mdiChartTimelineVariant}}</v-icon>
     </v-btn>
   </v-bottom-navigation>
 
@@ -534,6 +534,8 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { mdiChevronLeft, mdiDelete, mdiContentSave, mdiAccountPlus, mdiMagnify, mdiFormatListNumbered, mdiChartBar, mdiChartTimelineVariant } from '@mdi/js';
+
 import ScoreBoardData from '../components/ScoreBoard/ScoreBoardData.vue'
 import ScoreBoardGraph from '../components/ScoreBoard/ScoreBoardGraph.vue'
 
@@ -549,6 +551,16 @@ interface player {
   },
 })
 export default class ScoreBoard extends Vue {
+  icons = {
+    mdiChevronLeft,
+    mdiDelete,
+    mdiContentSave,
+    mdiAccountPlus,
+    mdiMagnify,
+    mdiFormatListNumbered,
+    mdiChartBar,
+    mdiChartTimelineVariant
+  }
   get rule() {
     return this.$store.getters['ScoreBoard/rule'];
   }

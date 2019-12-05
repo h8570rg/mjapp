@@ -2,14 +2,14 @@
   <v-app>
     <v-container fill-height fluid>
       <v-col class="pa-7">
-        <h2>Login</h2>
+        <h2>ログイン</h2>
         <v-form ref="form">
           <v-row>
             <v-text-field
             v-model="email"
             type="text"
             :rules="formRules.email"
-            prepend-icon="mail"
+            :prepend-icon="icons.mdiEmail"
             label="E-mail">
             </v-text-field>
           </v-row>
@@ -18,7 +18,7 @@
             v-model="password"
             type="password"
             :rules="formRules.password"
-            prepend-icon="lock"
+            :prepend-icon="icons.mdiLock"
             label="Password">
             </v-text-field>
           </v-row>
@@ -35,11 +35,11 @@
             class="mb-10"
             height="38px"
             @click="signin()"
-            :loading="loading">login</v-btn>
+            :loading="loading">ログイン</v-btn>
           </v-row>
         </v-form>
-        <p>You don't have an account?
-          <router-link to="/signup">create account</router-link>
+        <p>
+          <router-link to="/signup" style="text-decoration: none;">アカウントを作成</router-link>
         </p>
       </v-col>
     </v-container>
@@ -48,12 +48,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { mdiEmail, mdiLock } from '@mdi/js';
 
 @Component({
   components: {
   },
 })
 export default class Signin extends Vue {
+  icons = {
+    mdiEmail,
+    mdiLock
+  }
   email = "";
   password = "";
   loading = false;

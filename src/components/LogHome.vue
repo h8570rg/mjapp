@@ -20,7 +20,7 @@
             class="my-2"
           >
             <v-card-title class="headline font-weight-bold py-2">
-              <v-icon class="mr-2">group</v-icon>
+              <v-icon class="mr-2">{{icons.mdiAccountMultiple}}</v-icon>
               {{new Date(log.date).getFullYear()}} /
               {{new Date(log.date).getMonth()+1}} /
               {{new Date(log.date).getDate()}}
@@ -72,7 +72,7 @@
             class="my-2"
           >
             <v-card-title class="headline font-weight-bold py-2">
-              <v-icon class="mr-2">store</v-icon>
+              <v-icon class="mr-2">{{icons.mdiStore}}</v-icon>
               {{new Date(log.date).getFullYear()}} /
               {{new Date(log.date).getMonth()+1}} /
               {{new Date(log.date).getDate()}}
@@ -117,12 +117,20 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {
+  mdiAccountMultiple,
+  mdiStore,
+} from '@mdi/js';
 
 @Component({
   components: {
   },
 })
 export default class LogHome extends Vue {
+  icons = {
+    mdiAccountMultiple,
+    mdiStore
+  }
   get scoreBoardsData() {
     return this.$store.getters['Log/scoreBoardsData']
   }

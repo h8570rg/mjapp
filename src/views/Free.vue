@@ -10,23 +10,25 @@
       icon
       to="/"
     >
-      <v-icon>arrow_back_ios</v-icon>
+      <v-icon large>{{icons.mdiChevronLeft}}</v-icon>
     </v-btn>
     <v-toolbar-title class="pl-1">Free</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
-          <v-icon>mdi-dots-vertical</v-icon>
+          <v-icon>{{icons.mdiDotsVertical}}</v-icon>
         </v-btn>
       </template>
       <v-list>
           <v-list-item
-          class="px-8"
+          class="px-5"
           @click="deleteParlor()">
-            <v-list-item-title class="d-flex align-center">
-              <v-icon>delete</v-icon>
-              削除
+            <v-list-item-title>
+              <v-row align="center" style="width: 100px;">
+                <v-icon class="mr-2">{{icons.mdiDelete}}</v-icon>
+                <span>削除</span>
+              </v-row>
             </v-list-item-title>
           </v-list-item>
         </v-list>
@@ -46,7 +48,7 @@
       color="purple"
       text-color="white"
       label>
-        <v-icon class="mr-2">store</v-icon>
+        <v-icon class="mr-2">{{icons.mdiStore}}</v-icon>
         {{parlor.name}}
       </v-chip>
       
@@ -198,12 +200,19 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { mdiChevronLeft, mdiDotsVertical, mdiDelete, mdiStore } from '@mdi/js';
 
 @Component({
   components: {
   },
 })
 export default class ScoreBoard extends Vue {
+  icons = {
+    mdiChevronLeft,
+    mdiDotsVertical,
+    mdiDelete,
+    mdiStore
+  }
   get parlor() {
     return this.$store.getters['Free/parlor']
   }
