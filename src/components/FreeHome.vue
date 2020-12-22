@@ -85,7 +85,7 @@
                 item-value="value"
                 item-text="label"
                 label="レート"
-                hint="例: 点5 → 1000点50円"
+                hint="例: 点5 → 1000点50ベリー"
                 required>
                 </v-select>
               </v-row>

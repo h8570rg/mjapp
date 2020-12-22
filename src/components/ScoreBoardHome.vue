@@ -116,7 +116,7 @@
                   item-text="label"
                   item-value="value"
                   label="レート"
-                  hint="例: 点5 → 1000点50円"
+                  hint="例: 点5 → 1000点50ベリー"
                   :rules="[v => (!!v || 0 ) || 'レートを選択してください']"
                   required>
                   </v-select>

@@ -166,7 +166,7 @@
               <v-col
               class="text-center px-0 py-2"
               :cols="tableHead">
-                ￥
+                ベリー
               </v-col>
               <v-col
               class="text-center px-0 py-2"
@@ -291,6 +291,7 @@
                   v-model="searchPlayerFilter"
                   class="ma-0 pa-0"
                   label="filter"
+                  placeholder="名前かニックネームを入力してください"
                   :prepend-inner-icon="icons.mdiMagnify"
                 >
                 </v-text-field>
